@@ -1,0 +1,19 @@
+version: '3.9'
+
+services:
+  web:
+    image: caddy:2.5.1-alpine
+    container_name: fwstats-web-prod-container
+    restart: 'always'
+    volumes:
+      - .:/var/www/html/
+      - ./docker/caddy:/etc/caddy/
+    ports:
+      - '8052:80'
+
+  php:
+    build: ./docker/php
+    container_name: fwstats-php-prod-container
+    restart: 'always'
+    volumes:
+      - .:/var/www/html/
