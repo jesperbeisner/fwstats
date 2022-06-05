@@ -8,7 +8,7 @@ services:
       - .:/var/www/html/
       - ./docker/caddy:/etc/caddy/
     ports:
-      - '8080:80'
+      - '${DOCKER_PORT:-8080}:80'
 
   php:
     build: ./docker/php
