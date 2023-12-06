@@ -1,0 +1,31 @@
+services:
+    php:
+        build:
+            context: .
+            dockerfile: .docker/dev/Dockerfile
+            args:
+                USER_ID: ${USER_ID:-1000}
+                USER_NAME: ${USER_NAME:-fwstats}
+        extra_hosts:
+            - 'host.docker.internal:host-gateway'
+        volumes:
+            - .:/var/www/html
+        ports:
+            - '8080:8080'
+        depends_on:
+            mysql:
+                condition: 'service_healthy'
+
+    mysql:
+        image: mysql
+        command: --default-authentication-plugin=mysql_native_password
+        environment:
+            MYSQL_ROOT_PASSWORD: password
+            MYSQL_DATABASE: fwstats
+        ports:
+            - '33060:3306'
+        healthcheck:
+            test: ['CMD', 'mysqladmin', 'ping', '-h', 'localhost', '-u', 'root', '-ppassword']
+            interval: 3s
+            timeout: 10s
+            retries: 5

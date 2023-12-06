@@ -1,0 +1,31 @@
+<?php
+
+declare(strict_types=1);
+
+use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\Schema;
+
+return new class extends Migration
+{
+    public function up(): void
+    {
+        Schema::create('players_import', function (Blueprint $table) {
+            $table->integer('id');
+            $table->string('world');
+            $table->string('name');
+            $table->integer('xp');
+            $table->string('race');
+            $table->integer('clan_id')->nullable();
+            $table->integer('soul_xp')->nullable();
+            $table->string('profession')->nullable();
+
+            $table->primary(['id', 'world']);
+        });
+    }
+
+    public function down(): void
+    {
+        Schema::dropIfExists('players_import');
+    }
+};
