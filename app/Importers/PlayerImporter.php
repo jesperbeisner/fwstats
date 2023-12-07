@@ -31,8 +31,13 @@ final class PlayerImporter extends AbstractImporter
             }
         }
 
-        DB::statement('INSERT INTO players (id, world, name, xp, race, clan_id, soul_xp, profession, created_at, updated_at) SELECT id, world, name, xp, race, clan_id, soul_xp, profession, NOW(), NOW() FROM players_import ON DUPLICATE KEY UPDATE players.name = players_import.name, players.xp = players_import.xp, players.race = players_import.race, players.clan_id = players_import.clan_id, players.soul_xp = players_import.soul_xp, players.profession = players_import.profession, players.updated_at = NOW()');
+        // Check if we have new players and if they are relly new or just unbanned/undeleted
+        $this->checkCreatedPlayers();
 
+        // Check if we have removed players and if yes, check if they were deleted or banned
+        $this->checkRemovedPlayers();
+
+        DB::statement('INSERT INTO players (id, world, name, xp, race, clan_id, soul_xp, profession, created_at, updated_at) SELECT id, world, name, xp, race, clan_id, soul_xp, profession, NOW(), NOW() FROM players_import ON DUPLICATE KEY UPDATE players.name = players_import.name, players.xp = players_import.xp, players.race = players_import.race, players.clan_id = players_import.clan_id, players.soul_xp = players_import.soul_xp, players.profession = players_import.profession, players.updated_at = NOW()');
     }
 
     /**
@@ -63,5 +68,33 @@ final class PlayerImporter extends AbstractImporter
         }
 
         return $players;
+    }
+
+    private function checkCreatedPlayers(): void
+    {
+        DB::table('created_players_import')->truncate();
+
+        // Add all players that are new in the players dump to a separate table
+        DB::statement('INSERT INTO created_players_import (player_id, player_world) SELECT pi.id, pi.world FROM players p RIGHT JOIN players_import pi ON p.id = pi.id AND p.world = pi.world WHERE p.id IS NULL');
+
+        /** @var array<int, object{player_id: int, player_world: string}> $createdPlayers */
+        $createdPlayers = DB::select('SELECT player_id, player_world FROM created_players_import');
+
+        // Check for all newly created players if they are really new or just unbanned/undeleted
+        foreach ($createdPlayers as $createdPlayer) {
+            /** @var null|object{id: int} $result */
+            $result = DB::selectOne('SELECT id FROM removed_players WHERE player_id = :player_id AND player_world = :player_world AND updated_at IS NULL', ['player_id' => $createdPlayer->player_id, 'player_world' => $createdPlayer->player_world]);
+
+            if ($result === null) {
+                DB::insert('INSERT INTO created_players (player_id, player_world, created_at) VALUES (:player_id, :player_world, NOW())', ['player_id' => $createdPlayer->player_id, 'player_world' => $createdPlayer->player_world]);
+            } else {
+                DB::update('UPDATE removed_players SET updated_at = NOW() WHERE id = :id', ['id' => $result->id]);
+            }
+        }
+    }
+
+    private function checkRemovedPlayers(): void
+    {
+        // TODO: Implement me!!!
     }
 }
