@@ -7,7 +7,7 @@ namespace Fwstats\Console\Commands;
 use Fwstats\Importers\ClanImporter;
 use Fwstats\Importers\PlayerImporter;
 use Illuminate\Console\Command;
-use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Benchmark;
 
 final class ImportCommand extends Command
 {
@@ -17,32 +17,13 @@ final class ImportCommand extends Command
 
     public function handle(ClanImporter $clanImporter, PlayerImporter $playerImporter): int
     {
-        DB::table('clans_import')->truncate();
-        DB::table('players_import')->truncate();
+        $clanImportResult = Benchmark::measure(static fn () => $clanImporter->import());
+        $this->info(sprintf('Finished all clan imports in %sms', round($clanImportResult)));
 
-        $clans = $clanImporter->getClans();
-        $players = $playerImporter->getPlayers();
+        $playerImportResult = Benchmark::measure(static fn () => $playerImporter->import());
+        $this->info(sprintf('Finished all player imports in %sms', round($playerImportResult)));
 
-        foreach ($clans as $world => $data) {
-            foreach (array_chunk($data, 2500) as $values) {
-                DB::table('clans_import')->insert($values);
-            }
-        }
-
-        $this->info('Finished all clan imports');
-
-        foreach ($players as $world => $data) {
-            foreach (array_chunk($data, 2500) as $values) {
-                DB::table('players_import')->insert($values);
-            }
-        }
-
-        $this->info('Finished all player imports');
-
-        DB::statement('INSERT INTO clans (id, world, name, shortcut, leader_id, co_leader_id, created_at, updated_at) SELECT id, world, name, shortcut, leader_id, co_leader_id, NOW(), NOW() FROM clans_import ON DUPLICATE KEY UPDATE clans.name = clans_import.name, clans.shortcut = clans_import.shortcut, clans.leader_id = clans_import.leader_id, clans.co_leader_id = clans_import.co_leader_id, clans.updated_at = NOW()');
-        DB::statement('INSERT INTO players (id, world, name, xp, race, clan_id, soul_xp, profession, created_at, updated_at) SELECT id, world, name, xp, race, clan_id, soul_xp, profession, NOW(), NOW() FROM players_import ON DUPLICATE KEY UPDATE players.name = players_import.name, players.xp = players_import.xp, players.race = players_import.race, players.clan_id = players_import.clan_id, players.soul_xp = players_import.soul_xp, players.profession = players_import.profession, players.updated_at = NOW()');
-
-        $this->info('Finished everything!');
+        $this->info(sprintf('Finished all imports in %sms', round($clanImportResult + $playerImportResult)));
 
         return Command::SUCCESS;
 

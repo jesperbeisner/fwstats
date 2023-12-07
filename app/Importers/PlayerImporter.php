@@ -6,18 +6,17 @@ namespace Fwstats\Importers;
 
 use Fwstats\Enums\RaceEnum;
 use Fwstats\Enums\WorldEnum;
+use Illuminate\Support\Facades\DB;
 
 final class PlayerImporter extends AbstractImporter
 {
     protected const string URL = 'https://{WORLD}.freewar.de/freewar/dump_players.php';
 
-    /**
-     * @return array<string, array<int, array{id: int, world: string, name: string, xp: int, race: string, clan_id: ?int, soul_xp: ?int, profession: ?string}>>
-     */
-    public function getPlayers(): array
+    public function import(): void
     {
-        $players = [];
+        DB::table('players_import')->truncate();
 
+        $players = [];
         foreach (WorldEnum::cases() as $worldEnum) {
             $url = $this->getUrl($worldEnum);
             $dump = $this->getDump($url);
@@ -26,7 +25,14 @@ final class PlayerImporter extends AbstractImporter
             $players[$worldEnum->value] = $this->parseDump($worldEnum, $dump);
         }
 
-        return $players;
+        foreach ($players as $world => $data) {
+            foreach (array_chunk($data, 2500) as $values) {
+                DB::table('players_import')->insert($values);
+            }
+        }
+
+        DB::statement('INSERT INTO players (id, world, name, xp, race, clan_id, soul_xp, profession, created_at, updated_at) SELECT id, world, name, xp, race, clan_id, soul_xp, profession, NOW(), NOW() FROM players_import ON DUPLICATE KEY UPDATE players.name = players_import.name, players.xp = players_import.xp, players.race = players_import.race, players.clan_id = players_import.clan_id, players.soul_xp = players_import.soul_xp, players.profession = players_import.profession, players.updated_at = NOW()');
+
     }
 
     /**

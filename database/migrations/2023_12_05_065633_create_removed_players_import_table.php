@@ -10,13 +10,9 @@ return new class extends Migration
 {
     public function up(): void
     {
-        Schema::create('removed_players', function (Blueprint $table) {
-            $table->id();
+        Schema::create('removed_players_import', function (Blueprint $table) {
             $table->integer('player_id');
             $table->string('player_world');
-            $table->string('type');
-            $table->dateTime('created_at');
-            $table->dateTime('updated_at')->nullable();
 
             $table->index(['player_id', 'player_world']);
         });
@@ -24,6 +20,6 @@ return new class extends Migration
 
     public function down(): void
     {
-        Schema::dropIfExists('removed_players');
+        Schema::dropIfExists('removed_players_import');
     }
 };

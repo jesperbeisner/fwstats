@@ -40,3 +40,6 @@ reset-db: ## Reset the database
 
 import: ## Import real freewar data
 	docker compose exec php php -d memory_limit=-1 -d xdebug.mode=off artisan fwstats:import
+
+phpstan-debug: ## Run PHPStan in debug mode
+	docker compose exec php php -d memory_limit=-1 -d xdebug.mode=off vendor/bin/phpstan analyse --debug

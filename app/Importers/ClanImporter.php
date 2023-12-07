@@ -5,18 +5,17 @@ declare(strict_types=1);
 namespace Fwstats\Importers;
 
 use Fwstats\Enums\WorldEnum;
+use Illuminate\Support\Facades\DB;
 
 final class ClanImporter extends AbstractImporter
 {
     protected const string URL = 'https://{WORLD}.freewar.de/freewar/dump_clans.php';
 
-    /**
-     * @return array<string, array<int, array{id: int, world: string, name: string, shortcut: ?string, leader_id: ?int, co_leader_id: ?int}>>
-     */
-    public function getClans(): array
+    public function import(): void
     {
-        $clans = [];
+        DB::table('clans_import')->truncate();
 
+        $clans = [];
         foreach (WorldEnum::cases() as $worldEnum) {
             $url = $this->getUrl($worldEnum);
             $dump = $this->getDump($url);
@@ -25,7 +24,13 @@ final class ClanImporter extends AbstractImporter
             $clans[$worldEnum->value] = $this->parseDump($worldEnum, $dump);
         }
 
-        return $clans;
+        foreach ($clans as $world => $data) {
+            foreach (array_chunk($data, 2500) as $values) {
+                DB::table('clans_import')->insert($values);
+            }
+        }
+
+        DB::statement('INSERT INTO clans (id, world, name, shortcut, leader_id, co_leader_id, created_at, updated_at) SELECT id, world, name, shortcut, leader_id, co_leader_id, NOW(), NOW() FROM clans_import ON DUPLICATE KEY UPDATE clans.name = clans_import.name, clans.shortcut = clans_import.shortcut, clans.leader_id = clans_import.leader_id, clans.co_leader_id = clans_import.co_leader_id, clans.updated_at = NOW()');
     }
 
     /**
