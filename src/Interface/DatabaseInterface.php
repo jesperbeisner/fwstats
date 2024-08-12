@@ -12,6 +12,7 @@ interface DatabaseInterface
     public function execute(string $sql, array $params = []): void;
 
     /**
+     * @phpstan-impure
      * @param array<string, string|int> $params
      * @return array<mixed>
      */

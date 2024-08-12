@@ -24,16 +24,6 @@
         "symplify/phpstan-rules": "^13.0.0",
         "tomasvotruba/type-coverage": "^0.3.1"
     },
-    "scripts": {
-        "csfixer": "PHP_CS_FIXER_IGNORE_ENV=1 vendor/bin/php-cs-fixer fix --diff",
-        "phpunit": "vendor/bin/phpunit",
-        "phpstan": "vendor/bin/phpstan --memory-limit=-1",
-        "test": {
-            "csfixer": "@csfixer",
-            "phpunit": "@phpunit",
-            "phpstan": "@phpstan"
-        }
-    },
     "autoload": {
         "psr-4": {
             "Jesperbeisner\\Fwstats\\": "src/"

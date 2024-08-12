@@ -2,6 +2,8 @@
 
 declare(strict_types=1);
 
+use PhpCsFixer\Runner\Parallel\ParallelConfigFactory;
+
 $finder = (new PhpCsFixer\Finder())
     ->in([
         __DIR__ . '/src',
@@ -19,4 +21,5 @@ return (new PhpCsFixer\Config())->setRules([
     ->setFinder($finder)
     ->setRiskyAllowed(true)
     ->setUsingCache(false)
+    ->setParallelConfig(ParallelConfigFactory::detect())
 ;
