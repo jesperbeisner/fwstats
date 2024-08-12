@@ -25,7 +25,7 @@ Check the newest docker image [here](https://github.com/jesperbeisner/fwstats/pk
 ### 1. Start the docker container
 
 ```bash
-docker-compose up -d
+docker compose up -d
 ```
 
 ### 2. Install composer packages
@@ -33,19 +33,19 @@ docker-compose up -d
 Use the docker container to install composer packages. This way it's not important which PHP version you have installed locally, and you do not run into any errors.
 
 ```bash
-docker-compose exec php composer install
+docker compose exec php composer install
 ```
 
 ### 3. Load migrations
 
 ```bash
-docker-compose exec php php bin/console.php app:database-migration
+docker compose exec php php bin/console.php app:database-migration
 ```
 
 ### 4. Load fixtures
 
 ```bash
-docker-compose exec php php bin/console.php app:database-fixture
+docker compose exec php php bin/console.php app:database-fixtures
 ```
 
 ### 5. Finished
