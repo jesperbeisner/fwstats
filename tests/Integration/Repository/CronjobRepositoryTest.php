@@ -17,10 +17,10 @@ final class CronjobRepositoryTest extends AbstractTestCase
 
     protected function setUp(): void
     {
-        self::setUpContainer();
-        self::setUpDatabase();
+        $this->setUpContainer();
+        $this->setUpDatabase();
 
-        $this->cronjobRepository = self::getContainer()->get(CronjobRepository::class);
+        $this->cronjobRepository = $this->getContainer()->get(CronjobRepository::class);
     }
 
     public function test_insert(): void
@@ -28,15 +28,15 @@ final class CronjobRepositoryTest extends AbstractTestCase
         $cronjob = new Cronjob(null, new DateTimeImmutable());
         $newCronjob = $this->cronjobRepository->insert($cronjob);
 
-        self::assertSame(1, $newCronjob->id);
-        self::assertNotSame($cronjob, $newCronjob);
+        $this->assertSame(1, $newCronjob->id);
+        $this->assertNotSame($cronjob, $newCronjob);
     }
 
     public function test_findLastCronjob_returns_null_when_no_last_cronjob_exists(): void
     {
         $cronjob = $this->cronjobRepository->findLastCronjob();
 
-        self::assertNull($cronjob);
+        $this->assertNull($cronjob);
     }
 
     public function test_findLastCronjob_returns_the_last_cronjob(): void
@@ -53,7 +53,7 @@ final class CronjobRepositoryTest extends AbstractTestCase
 
         $cronjob = $this->cronjobRepository->findLastCronjob();
 
-        self::assertNotNull($cronjob);
-        self::assertSame('2022-01-01 00:00:00', $cronjob->created->format('Y-m-d H:i:s'));
+        $this->assertNotNull($cronjob);
+        $this->assertSame('2022-01-01 00:00:00', $cronjob->created->format('Y-m-d H:i:s'));
     }
 }

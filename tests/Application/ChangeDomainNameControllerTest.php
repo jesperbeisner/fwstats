@@ -20,60 +20,60 @@ final class ChangeDomainNameControllerTest extends AbstractTestCase
 {
     protected function setUp(): void
     {
-        self::setUpContainer();
-        self::setUpDatabase();
+        $this->setUpContainer();
+        $this->setUpDatabase();
     }
 
     public function test_get_request(): void
     {
         $request = new Request(['REQUEST_URI' => '/admin/change-domain-name', 'REQUEST_METHOD' => 'GET'], [], [], [], []);
-        self::getContainer()->set(Request::class, $request);
+        $this->getContainer()->set(Request::class, $request);
 
-        $response = (new Application(self::getContainer()))->handle($request);
+        $response = (new Application($this->getContainer()))->handle($request);
 
-        self::assertSame(405, $response->statusCode);
-        self::assertSame(Response::CONTENT_TYPE_JSON, $response->contentType);
-        self::assertSame('{"Error":"Method not allowed."}', $response->content);
+        $this->assertSame(405, $response->statusCode);
+        $this->assertSame(Response::CONTENT_TYPE_JSON, $response->contentType);
+        $this->assertSame('{"Error":"Method not allowed."}', $response->content);
     }
 
     public function test_post_request_without_login(): void
     {
         $request = new Request(['REQUEST_URI' => '/admin/change-domain-name', 'REQUEST_METHOD' => 'POST'], [], [], [], []);
-        self::getContainer()->set(Request::class, $request);
+        $this->getContainer()->set(Request::class, $request);
 
-        $response = (new Application(self::getContainer()))->handle($request);
+        $response = (new Application($this->getContainer()))->handle($request);
 
-        self::assertSame(302, $response->statusCode);
-        self::assertSame('/login', $response->location);
+        $this->assertSame(302, $response->statusCode);
+        $this->assertSame('/login', $response->location);
     }
 
     public function test_post_request_without_domain_name(): void
     {
         $request = new Request(['REQUEST_URI' => '/admin/change-domain-name', 'REQUEST_METHOD' => 'POST'], [], [], [], []);
-        self::getContainer()->set(Request::class, $request);
+        $this->getContainer()->set(Request::class, $request);
 
         $user = new User(1, 'test', 'test', 'test', 'test', new DateTimeImmutable());
-        self::getContainer()->get(SessionInterface::class)->setUser($user);
+        $this->getContainer()->get(SessionInterface::class)->setUser($user);
 
-        $response = (new Application(self::getContainer()))->handle($request);
+        $response = (new Application($this->getContainer()))->handle($request);
 
-        self::assertSame(303, $response->statusCode);
-        self::assertSame('/admin', $response->location);
-        self::assertSame(self::getContainer()->get(SessionInterface::class)->getFlash(FlashEnum::ERROR), ['text.no-domain-name-specified']);
+        $this->assertSame(303, $response->statusCode);
+        $this->assertSame('/admin', $response->location);
+        $this->assertSame($this->getContainer()->get(SessionInterface::class)->getFlash(FlashEnum::ERROR), ['text.no-domain-name-specified']);
     }
 
     public function test_post_request_with_domain_name(): void
     {
         $request = new Request(['REQUEST_URI' => '/admin/change-domain-name', 'REQUEST_METHOD' => 'POST'], [], ['domain-name' => 'https://example.com'], [], []);
-        self::getContainer()->set(Request::class, $request);
+        $this->getContainer()->set(Request::class, $request);
 
         $user = new User(1, 'test', 'test', 'test', 'test', new DateTimeImmutable());
-        self::getContainer()->get(SessionInterface::class)->setUser($user);
+        $this->getContainer()->get(SessionInterface::class)->setUser($user);
 
-        $response = (new Application(self::getContainer()))->handle($request);
+        $response = (new Application($this->getContainer()))->handle($request);
 
-        self::assertSame(303, $response->statusCode);
-        self::assertSame('/admin', $response->location);
-        self::assertSame(self::getContainer()->get(SessionInterface::class)->getFlash(FlashEnum::SUCCESS), ['text.domain-name-changed-successfully']);
+        $this->assertSame(303, $response->statusCode);
+        $this->assertSame('/admin', $response->location);
+        $this->assertSame($this->getContainer()->get(SessionInterface::class)->getFlash(FlashEnum::SUCCESS), ['text.domain-name-changed-successfully']);
     }
 }

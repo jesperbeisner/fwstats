@@ -23,8 +23,8 @@ final class ChangePasswordActionTest extends TestCase
         $userRepository = new UserRepository($database);
         $changePasswordAction = new ChangePasswordAction($userRepository);
 
-        self::expectException(RuntimeException::class);
-        self::expectExceptionMessage('No user and/or password set in "ChangePasswordAction::configure".');
+        $this->expectException(RuntimeException::class);
+        $this->expectExceptionMessage('No user and/or password set in "ChangePasswordAction::configure".');
 
         $changePasswordAction->configure(['user-not-set' => 'test', 'password' => 'test']);
     }
@@ -35,8 +35,8 @@ final class ChangePasswordActionTest extends TestCase
         $userRepository = new UserRepository($database);
         $changePasswordAction = new ChangePasswordAction($userRepository);
 
-        self::expectException(RuntimeException::class);
-        self::expectExceptionMessage('No user and/or password set in "ChangePasswordAction::configure".');
+        $this->expectException(RuntimeException::class);
+        $this->expectExceptionMessage('No user and/or password set in "ChangePasswordAction::configure".');
 
         $changePasswordAction->configure(['user' => 'test', 'password-not-set' => 'test']);
     }
@@ -47,8 +47,8 @@ final class ChangePasswordActionTest extends TestCase
         $userRepository = new UserRepository($database);
         $changePasswordAction = new ChangePasswordAction($userRepository);
 
-        self::expectException(RuntimeException::class);
-        self::expectExceptionMessage(sprintf('The user set in the "CreateUserAction::configure" method is not an instance of "%s".', User::class));
+        $this->expectException(RuntimeException::class);
+        $this->expectExceptionMessage(sprintf('The user set in the "CreateUserAction::configure" method is not an instance of "%s".', User::class));
 
         $changePasswordAction->configure(['user' => 'test', 'password' => 'test']);
     }
@@ -61,8 +61,8 @@ final class ChangePasswordActionTest extends TestCase
         $userRepository = new UserRepository($database);
         $changePasswordAction = new ChangePasswordAction($userRepository);
 
-        self::expectException(RuntimeException::class);
-        self::expectExceptionMessage('The password set in the "CreateUserAction::configure" method is not a string.');
+        $this->expectException(RuntimeException::class);
+        $this->expectExceptionMessage('The password set in the "CreateUserAction::configure" method is not a string.');
 
         $changePasswordAction->configure(['user' => $user, 'password' => 123]);
     }
@@ -75,8 +75,8 @@ final class ChangePasswordActionTest extends TestCase
         $userRepository = new UserRepository($database);
         $changePasswordAction = new ChangePasswordAction($userRepository);
 
-        self::expectException(ActionException::class);
-        self::expectExceptionMessage('text.password-not-long-enough');
+        $this->expectException(ActionException::class);
+        $this->expectExceptionMessage('text.password-not-long-enough');
 
         $changePasswordAction->configure(['user' => $user, 'password' => 'test']);
     }
@@ -89,8 +89,8 @@ final class ChangePasswordActionTest extends TestCase
         $userRepository = new UserRepository($database);
         $changePasswordAction = new ChangePasswordAction($userRepository);
 
-        self::expectException(ActionException::class);
-        self::expectExceptionMessage('text.password-too-long');
+        $this->expectException(ActionException::class);
+        $this->expectExceptionMessage('text.password-too-long');
 
         $changePasswordAction->configure(['user' => $user, 'password' => str_repeat('1234567890', 11)]);
     }
@@ -101,8 +101,8 @@ final class ChangePasswordActionTest extends TestCase
         $userRepository = new UserRepository($database);
         $changePasswordAction = new ChangePasswordAction($userRepository);
 
-        self::expectException(RuntimeException::class);
-        self::expectExceptionMessage('You need to call "configure" before you can call "run".');
+        $this->expectException(RuntimeException::class);
+        $this->expectExceptionMessage('You need to call "configure" before you can call "run".');
 
         $changePasswordAction->run();
     }
@@ -117,7 +117,7 @@ final class ChangePasswordActionTest extends TestCase
 
         $result = $changePasswordAction->configure(['user' => $user, 'password' => '1234567890'])->run();
 
-        self::assertTrue($result->isSuccess());
-        self::assertSame('text.password-changed-successfully', $result->getMessage());
+        $this->assertTrue($result->isSuccess());
+        $this->assertSame('text.password-changed-successfully', $result->getMessage());
     }
 }

@@ -15,8 +15,8 @@ final class MethodNotAllowedControllerTest extends AbstractTestCase
 {
     protected function setUp(): void
     {
-        self::setUpContainer();
-        self::setUpDatabase();
+        $this->setUpContainer();
+        $this->setUpDatabase();
     }
 
     public function test_get_request(): void
@@ -24,8 +24,8 @@ final class MethodNotAllowedControllerTest extends AbstractTestCase
         $request = new Request(['REQUEST_URI' => '/', 'REQUEST_METHOD' => 'DELETE'], [], [], [], []);
         $response = (new MethodNotAllowedController())->execute($request);
 
-        self::assertSame(405, $response->statusCode);
-        self::assertSame(Response::CONTENT_TYPE_JSON, $response->contentType);
-        self::assertSame('{"Error":"Method not allowed."}', $response->content);
+        $this->assertSame(405, $response->statusCode);
+        $this->assertSame(Response::CONTENT_TYPE_JSON, $response->contentType);
+        $this->assertSame('{"Error":"Method not allowed."}', $response->content);
     }
 }

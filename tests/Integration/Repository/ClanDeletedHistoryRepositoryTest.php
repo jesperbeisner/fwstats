@@ -18,10 +18,10 @@ final class ClanDeletedHistoryRepositoryTest extends AbstractTestCase
 
     protected function setUp(): void
     {
-        self::setUpContainer();
-        self::setUpDatabase();
+        $this->setUpContainer();
+        $this->setUpDatabase();
 
-        $this->clanDeletedHistoryRepository = self::getContainer()->get(ClanDeletedHistoryRepository::class);
+        $this->clanDeletedHistoryRepository = $this->getContainer()->get(ClanDeletedHistoryRepository::class);
     }
 
     public function test_insert(): void
@@ -29,7 +29,7 @@ final class ClanDeletedHistoryRepositoryTest extends AbstractTestCase
         $clanDeletedHistory = new ClanDeletedHistory(null, WorldEnum::AFSRV, 1, 'o.O', 'test', 1, 1, 1, 1, new DateTimeImmutable());
         $newClanDeletedHistory = $this->clanDeletedHistoryRepository->insert($clanDeletedHistory);
 
-        self::assertSame(1, $newClanDeletedHistory->id);
-        self::assertNotSame($clanDeletedHistory, $newClanDeletedHistory);
+        $this->assertSame(1, $newClanDeletedHistory->id);
+        $this->assertNotSame($clanDeletedHistory, $newClanDeletedHistory);
     }
 }

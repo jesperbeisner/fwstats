@@ -16,8 +16,8 @@ final class ConfigTest extends TestCase
     {
         $config = new Config(['global' => [], 'routes' => [], 'startProcesses' => [], 'endProcesses' => [], 'commands' => [], 'factories' => []]);
 
-        self::expectException(RuntimeException::class);
-        self::expectExceptionMessage('There is no config value for the key "test".');
+        $this->expectException(RuntimeException::class);
+        $this->expectExceptionMessage('There is no config value for the key "test".');
 
         $config->get('test');
     }
@@ -26,8 +26,8 @@ final class ConfigTest extends TestCase
     {
         $config = new Config(['global' => ['test' => 1], 'routes' => [], 'startProcesses' => [], 'endProcesses' => [], 'commands' => [], 'factories' => []]);
 
-        self::expectException(RuntimeException::class);
-        self::expectExceptionMessage('Config value for key "test" found but it is no string.');
+        $this->expectException(RuntimeException::class);
+        $this->expectExceptionMessage('Config value for key "test" found but it is no string.');
 
         $config->getString('test');
     }
@@ -36,8 +36,8 @@ final class ConfigTest extends TestCase
     {
         $config = new Config(['global' => ['test' => 'test'], 'routes' => [], 'startProcesses' => [], 'endProcesses' => [], 'commands' => [], 'factories' => []]);
 
-        self::expectException(RuntimeException::class);
-        self::expectExceptionMessage('Config value for key "test" found but it is no int.');
+        $this->expectException(RuntimeException::class);
+        $this->expectExceptionMessage('Config value for key "test" found but it is no int.');
 
         $config->getInt('test');
     }
@@ -46,8 +46,8 @@ final class ConfigTest extends TestCase
     {
         $config = new Config(['global' => ['test' => 'test'], 'routes' => [], 'startProcesses' => [], 'endProcesses' => [], 'commands' => [], 'factories' => []]);
 
-        self::expectException(RuntimeException::class);
-        self::expectExceptionMessage('Config value for key "test" found but it is no float.');
+        $this->expectException(RuntimeException::class);
+        $this->expectExceptionMessage('Config value for key "test" found but it is no float.');
 
         $config->getFloat('test');
     }
@@ -56,8 +56,8 @@ final class ConfigTest extends TestCase
     {
         $config = new Config(['global' => ['test' => 'test'], 'routes' => [], 'startProcesses' => [], 'endProcesses' => [], 'commands' => [], 'factories' => []]);
 
-        self::expectException(RuntimeException::class);
-        self::expectExceptionMessage('Config value for key "test" found but it is no bool.');
+        $this->expectException(RuntimeException::class);
+        $this->expectExceptionMessage('Config value for key "test" found but it is no bool.');
 
         $config->getBool('test');
     }
@@ -66,13 +66,13 @@ final class ConfigTest extends TestCase
     {
         $config = new Config(['global' => ['app_env' => 'test'], 'routes' => [], 'startProcesses' => [], 'endProcesses' => [], 'commands' => [], 'factories' => []]);
 
-        self::assertSame('test', $config->getAppEnv());
+        $this->assertSame('test', $config->getAppEnv());
     }
 
     public function test_it_returns_the_right_root_dir(): void
     {
         $config = new Config(['global' => ['root_directory' => __DIR__], 'routes' => [], 'startProcesses' => [], 'endProcesses' => [], 'commands' => [], 'factories' => []]);
 
-        self::assertSame(__DIR__, $config->getRootDir());
+        $this->assertSame(__DIR__, $config->getRootDir());
     }
 }

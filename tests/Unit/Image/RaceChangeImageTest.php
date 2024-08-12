@@ -37,12 +37,12 @@ final class RaceChangeImageTest extends TestCase
             $playerRaceHistoryRepository
         );
 
-        self::assertFileDoesNotExist($fileName);
+        $this->assertFileDoesNotExist($fileName);
 
         $raceChangeImage->create($worldEnum);
 
-        self::assertFileExists($fileName);
-        self::assertTrue(unlink($fileName));
+        $this->assertFileExists($fileName);
+        $this->assertTrue(unlink($fileName));
     }
 
     /**

@@ -19,8 +19,8 @@ final class ContainerTest extends TestCase
     {
         $container = new Container([]);
 
-        self::expectException(ContainerException::class);
-        self::expectExceptionMessage('Service with key "stdClass" does not exist in the container. Did you forget to register it in the "config.php" file?');
+        $this->expectException(ContainerException::class);
+        $this->expectExceptionMessage('Service with key "stdClass" does not exist in the container. Did you forget to register it in the "config.php" file?');
 
         $container->get(stdClass::class);
     }
@@ -30,8 +30,8 @@ final class ContainerTest extends TestCase
         $container = new Container([]);
         $container->set(stdClass::class, new Container([]));
 
-        self::expectException(ContainerException::class);
-        self::expectExceptionMessage('Returned service is not an instance of "stdClass".');
+        $this->expectException(ContainerException::class);
+        $this->expectExceptionMessage('Returned service is not an instance of "stdClass".');
 
         $container->get(stdClass::class);
     }
@@ -40,14 +40,14 @@ final class ContainerTest extends TestCase
     {
         $container = new Container([stdClass::class => FactoryDummy::class]);
 
-        self::assertTrue($container->has(stdClass::class));
+        $this->assertTrue($container->has(stdClass::class));
     }
 
     public function test_has_returns_false_when_the_service_does_not_exists_in_factory_array(): void
     {
         $container = new Container([stdClass::class => FactoryDummy::class]);
 
-        self::assertFalse($container->has(Container::class));
+        $this->assertFalse($container->has(Container::class));
     }
 }
 

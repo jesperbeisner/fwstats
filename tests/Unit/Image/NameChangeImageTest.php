@@ -37,12 +37,12 @@ final class NameChangeImageTest extends TestCase
             $playerNameHistoryRepository
         );
 
-        self::assertFileDoesNotExist($fileName);
+        $this->assertFileDoesNotExist($fileName);
 
         $nameChangeImage->create($worldEnum);
 
-        self::assertFileExists($fileName);
-        self::assertTrue(unlink($fileName));
+        $this->assertFileExists($fileName);
+        $this->assertTrue(unlink($fileName));
     }
 
     /**

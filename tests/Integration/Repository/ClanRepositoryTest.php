@@ -18,10 +18,10 @@ final class ClanRepositoryTest extends AbstractTestCase
 
     protected function setUp(): void
     {
-        self::setUpContainer();
-        self::setUpDatabase();
+        $this->setUpContainer();
+        $this->setUpDatabase();
 
-        $this->clanRepository = self::getContainer()->get(ClanRepository::class);
+        $this->clanRepository = $this->getContainer()->get(ClanRepository::class);
     }
 
     public function test_insert(): void
@@ -29,15 +29,15 @@ final class ClanRepositoryTest extends AbstractTestCase
         $clan = new Clan(null, WorldEnum::AFSRV, 1, 'o.O', 'test', 1, 1, 1, 1, new DateTimeImmutable());
         $newClan = $this->clanRepository->insert($clan);
 
-        self::assertSame(1, $newClan->id);
-        self::assertNotSame($clan, $newClan);
+        $this->assertSame(1, $newClan->id);
+        $this->assertNotSame($clan, $newClan);
     }
 
     public function test_findAllByWorld_without_clans_available(): void
     {
         $clans = $this->clanRepository->findAllByWorld(WorldEnum::AFSRV);
 
-        self::assertSame([], $clans);
+        $this->assertSame([], $clans);
     }
 
     public function test_findAllByWorld_with_clans_available(): void
@@ -47,6 +47,6 @@ final class ClanRepositoryTest extends AbstractTestCase
 
         $clans = $this->clanRepository->findAllByWorld(WorldEnum::AFSRV);
 
-        self::assertArrayHasKey(100, $clans);
+        $this->assertArrayHasKey(100, $clans);
     }
 }

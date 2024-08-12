@@ -48,12 +48,12 @@ final class RankingImageTest extends TestCase
             $clanRepository
         );
 
-        self::assertFileDoesNotExist($fileName);
+        $this->assertFileDoesNotExist($fileName);
 
         $rankingImage->create($worldEnum);
 
-        self::assertFileExists($fileName);
-        self::assertTrue(unlink($fileName));
+        $this->assertFileExists($fileName);
+        $this->assertTrue(unlink($fileName));
     }
 
     /**

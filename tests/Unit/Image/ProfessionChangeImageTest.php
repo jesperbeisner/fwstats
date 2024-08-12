@@ -37,12 +37,12 @@ final class ProfessionChangeImageTest extends TestCase
             $playerProfessionHistoryRepository
         );
 
-        self::assertFileDoesNotExist($fileName);
+        $this->assertFileDoesNotExist($fileName);
 
         $professionChangeImage->create($worldEnum);
 
-        self::assertFileExists($fileName);
-        self::assertTrue(unlink($fileName));
+        $this->assertFileExists($fileName);
+        $this->assertTrue(unlink($fileName));
     }
 
     /**

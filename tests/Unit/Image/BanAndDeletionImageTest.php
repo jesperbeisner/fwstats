@@ -37,12 +37,12 @@ final class BanAndDeletionImageTest extends TestCase
             $playerStatusHistoryRepository
         );
 
-        self::assertFileDoesNotExist($fileName);
+        $this->assertFileDoesNotExist($fileName);
 
         $banAndDeletionImage->create($worldEnum);
 
-        self::assertFileExists($fileName);
-        self::assertTrue(unlink($fileName));
+        $this->assertFileExists($fileName);
+        $this->assertTrue(unlink($fileName));
     }
 
     /**

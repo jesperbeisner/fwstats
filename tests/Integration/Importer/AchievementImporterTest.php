@@ -20,13 +20,13 @@ final class AchievementImporterTest extends AbstractTestCase
 {
     protected function setUp(): void
     {
-        self::setUpContainer();
-        self::setUpDatabase();
+        $this->setUpContainer();
+        $this->setUpDatabase();
     }
 
     public function test_it_imports_nothing_when_no_players_are_found(): void
     {
-        $container = self::getContainer();
+        $container = $this->getContainer();
         $database = $container->get(DatabaseInterface::class);
 
         $container->set(FreewarDumpServiceInterface::class, new FreewarDumpServiceDummy([], [], [
@@ -35,16 +35,16 @@ final class AchievementImporterTest extends AbstractTestCase
             3 => [1019 => 1, 1022 => 1, 1021 => 1],
         ]));
 
-        self::assertCount(0, $database->select("SELECT * FROM achievements"));
+        $this->assertCount(0, $database->select("SELECT * FROM achievements"));
 
         $container->get(AchievementImporter::class)->import(WorldEnum::AFSRV);
 
-        self::assertCount(0, $database->select("SELECT * FROM achievements"));
+        $this->assertCount(0, $database->select("SELECT * FROM achievements"));
     }
 
     public function test_it_imports_for_each_player_id_that_is_found_in_the_achievements_dump(): void
     {
-        $container = self::getContainer();
+        $container = $this->getContainer();
         $database = $container->get(DatabaseInterface::class);
 
         $container->get(PlayerRepository::class)->insertPlayers(WorldEnum::AFSRV, [
@@ -58,10 +58,10 @@ final class AchievementImporterTest extends AbstractTestCase
             3 => [1019 => 1, 1022 => 1, 1021 => 1],
         ]));
 
-        self::assertCount(0, $database->select("SELECT * FROM achievements"));
+        $this->assertCount(0, $database->select("SELECT * FROM achievements"));
 
         $container->get(AchievementImporter::class)->import(WorldEnum::AFSRV);
 
-        self::assertCount(2, $database->select("SELECT * FROM achievements"));
+        $this->assertCount(2, $database->select("SELECT * FROM achievements"));
     }
 }

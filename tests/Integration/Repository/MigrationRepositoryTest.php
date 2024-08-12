@@ -17,10 +17,10 @@ final class MigrationRepositoryTest extends AbstractTestCase
 
     protected function setUp(): void
     {
-        self::setUpContainer();
-        self::setUpDatabase();
+        $this->setUpContainer();
+        $this->setUpDatabase();
 
-        $this->migrationRepository = self::getContainer()->get(MigrationRepository::class);
+        $this->migrationRepository = $this->getContainer()->get(MigrationRepository::class);
     }
 
     public function test_insert(): void
@@ -28,15 +28,15 @@ final class MigrationRepositoryTest extends AbstractTestCase
         $migration = new Migration(null, 'test', new DateTimeImmutable());
         $newMigration = $this->migrationRepository->insert($migration);
 
-        self::assertNotNull($newMigration->id);
-        self::assertNotSame($migration, $newMigration);
+        $this->assertNotNull($newMigration->id);
+        $this->assertNotSame($migration, $newMigration);
     }
 
     public function test_findByFileName_returns_null_when_file_name_does_not_exist(): void
     {
         $migration = $this->migrationRepository->findByFileName('test');
 
-        self::assertNull($migration);
+        $this->assertNull($migration);
     }
 
     public function test_findByFileName_returns_the_migration_when_name_exists(): void
@@ -45,7 +45,7 @@ final class MigrationRepositoryTest extends AbstractTestCase
 
         $migration = $this->migrationRepository->findByFileName('test');
 
-        self::assertNotNull($migration);
-        self::assertNotNull($migration->id);
+        $this->assertNotNull($migration);
+        $this->assertNotNull($migration->id);
     }
 }

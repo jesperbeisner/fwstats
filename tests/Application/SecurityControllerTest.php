@@ -14,8 +14,8 @@ final class SecurityControllerTest extends AbstractTestCase
 {
     protected function setUp(): void
     {
-        self::setUpContainer();
-        self::setUpDatabase();
+        $this->setUpContainer();
+        $this->setUpDatabase();
     }
 
     public function test_get_request(): void
@@ -24,7 +24,7 @@ final class SecurityControllerTest extends AbstractTestCase
 
         $response = (new SecurityController())->execute($request);
 
-        self::assertSame(302, $response->statusCode);
-        self::assertSame('/login', $response->location);
+        $this->assertSame(302, $response->statusCode);
+        $this->assertSame('/login', $response->location);
     }
 }

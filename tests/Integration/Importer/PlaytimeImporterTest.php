@@ -19,13 +19,13 @@ final class PlaytimeImporterTest extends AbstractTestCase
 {
     protected function setUp(): void
     {
-        self::setUpContainer();
-        self::setUpDatabase();
+        $this->setUpContainer();
+        $this->setUpDatabase();
     }
 
     public function test_it_imports_playtimes(): void
     {
-        $container = self::getContainer();
+        $container = $this->getContainer();
         $database = $container->get(DatabaseInterface::class);
 
         $container->set(FreewarDumpServiceInterface::class, new FreewarDumpServiceDummy([
@@ -38,16 +38,16 @@ final class PlaytimeImporterTest extends AbstractTestCase
             3 => [1019 => 1, 1022 => 1, 1021 => 1, 1047 => 1],
         ]));
 
-        self::assertCount(0, $database->select("SELECT * FROM players_active_seconds"));
+        $this->assertCount(0, $database->select("SELECT * FROM players_active_seconds"));
 
         $container->get(PlaytimeImporter::class)->import(WorldEnum::AFSRV);
 
-        self::assertCount(3, $database->select("SELECT * FROM players_active_seconds"));
+        $this->assertCount(3, $database->select("SELECT * FROM players_active_seconds"));
     }
 
     public function test_it_imports_nothing_when_players_dump_is_empty(): void
     {
-        $container = self::getContainer();
+        $container = $this->getContainer();
         $database = $container->get(DatabaseInterface::class);
 
         $container->set(FreewarDumpServiceInterface::class, new FreewarDumpServiceDummy([], [], [
@@ -56,16 +56,16 @@ final class PlaytimeImporterTest extends AbstractTestCase
             3 => [1019 => 1, 1022 => 1, 1021 => 1, 1047 => 1],
         ]));
 
-        self::assertCount(0, $database->select("SELECT * FROM players_active_seconds"));
+        $this->assertCount(0, $database->select("SELECT * FROM players_active_seconds"));
 
         $container->get(PlaytimeImporter::class)->import(WorldEnum::AFSRV);
 
-        self::assertCount(0, $database->select("SELECT * FROM players_active_seconds"));
+        $this->assertCount(0, $database->select("SELECT * FROM players_active_seconds"));
     }
 
     public function test_it_imports_nothing_when_achievements_dump_is_empty(): void
     {
-        $container = self::getContainer();
+        $container = $this->getContainer();
         $database = $container->get(DatabaseInterface::class);
 
         $container->set(FreewarDumpServiceInterface::class, new FreewarDumpServiceDummy([
@@ -74,10 +74,10 @@ final class PlaytimeImporterTest extends AbstractTestCase
             3 => new Player(null, WorldEnum::AFSRV, 3, 'Test-3', 'Keuroner', 300, 0, 300, null, null, new DateTimeImmutable()),
         ], [], []));
 
-        self::assertCount(0, $database->select("SELECT * FROM players_active_seconds"));
+        $this->assertCount(0, $database->select("SELECT * FROM players_active_seconds"));
 
         $container->get(PlaytimeImporter::class)->import(WorldEnum::AFSRV);
 
-        self::assertCount(0, $database->select("SELECT * FROM players_active_seconds"));
+        $this->assertCount(0, $database->select("SELECT * FROM players_active_seconds"));
     }
 }

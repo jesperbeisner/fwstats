@@ -15,8 +15,8 @@ final class NotFoundControllerTest extends AbstractTestCase
 {
     protected function setUp(): void
     {
-        self::setUpContainer();
-        self::setUpDatabase();
+        $this->setUpContainer();
+        $this->setUpDatabase();
     }
 
     public function test_get_request(): void
@@ -25,8 +25,8 @@ final class NotFoundControllerTest extends AbstractTestCase
 
         $response = (new NotFoundController())->execute($request);
 
-        self::assertSame(404, $response->statusCode);
-        self::assertSame(Response::CONTENT_TYPE_HTML, $response->contentType);
-        self::assertSame('error/error.phtml', $response->template);
+        $this->assertSame(404, $response->statusCode);
+        $this->assertSame(Response::CONTENT_TYPE_HTML, $response->contentType);
+        $this->assertSame('error/error.phtml', $response->template);
     }
 }

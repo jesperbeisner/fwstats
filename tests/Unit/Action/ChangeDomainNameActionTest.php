@@ -21,8 +21,8 @@ final class ChangeDomainNameActionTest extends TestCase
         $configRepository = new ConfigRepository($database);
         $changeDomainNameAction = new ChangeDomainNameAction($configRepository);
 
-        self::expectException(RuntimeException::class);
-        self::expectExceptionMessage('No domain name set in "ChangeDomainNameAction::configure".');
+        $this->expectException(RuntimeException::class);
+        $this->expectExceptionMessage('No domain name set in "ChangeDomainNameAction::configure".');
 
         $changeDomainNameAction->configure([]);
     }
@@ -33,8 +33,8 @@ final class ChangeDomainNameActionTest extends TestCase
         $configRepository = new ConfigRepository($database);
         $changeDomainNameAction = new ChangeDomainNameAction($configRepository);
 
-        self::expectException(RuntimeException::class);
-        self::expectExceptionMessage('The domain name set in the "ChangeDomainNameAction::configure" method is not a string.');
+        $this->expectException(RuntimeException::class);
+        $this->expectExceptionMessage('The domain name set in the "ChangeDomainNameAction::configure" method is not a string.');
 
         $changeDomainNameAction->configure(['domainName' => 123]);
     }
@@ -45,8 +45,8 @@ final class ChangeDomainNameActionTest extends TestCase
         $configRepository = new ConfigRepository($database);
         $changeDomainNameAction = new ChangeDomainNameAction($configRepository);
 
-        self::expectException(ActionException::class);
-        self::expectExceptionMessage('text.domain-name-wrong-start');
+        $this->expectException(ActionException::class);
+        $this->expectExceptionMessage('text.domain-name-wrong-start');
 
         $changeDomainNameAction->configure(['domainName' => 'http://example.com']);
     }
@@ -57,8 +57,8 @@ final class ChangeDomainNameActionTest extends TestCase
         $configRepository = new ConfigRepository($database);
         $changeDomainNameAction = new ChangeDomainNameAction($configRepository);
 
-        self::expectException(RuntimeException::class);
-        self::expectExceptionMessage('You need to call "configure" before you can call "run".');
+        $this->expectException(RuntimeException::class);
+        $this->expectExceptionMessage('You need to call "configure" before you can call "run".');
 
         $changeDomainNameAction->run();
     }
@@ -71,7 +71,7 @@ final class ChangeDomainNameActionTest extends TestCase
 
         $result = $changeDomainNameAction->configure(['domainName' => 'https://example.com'])->run();
 
-        self::assertTrue($result->isSuccess());
-        self::assertSame('text.domain-name-changed-successfully', $result->getMessage());
+        $this->assertTrue($result->isSuccess());
+        $this->assertSame('text.domain-name-changed-successfully', $result->getMessage());
     }
 }

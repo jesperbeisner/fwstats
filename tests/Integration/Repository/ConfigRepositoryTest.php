@@ -17,10 +17,10 @@ final class ConfigRepositoryTest extends AbstractTestCase
 
     protected function setUp(): void
     {
-        self::setUpContainer();
-        self::setUpDatabase();
+        $this->setUpContainer();
+        $this->setUpDatabase();
 
-        $this->configRepository = self::getContainer()->get(ConfigRepository::class);
+        $this->configRepository = $this->getContainer()->get(ConfigRepository::class);
     }
 
     public function test_insert(): void
@@ -28,15 +28,15 @@ final class ConfigRepositoryTest extends AbstractTestCase
         $config = new Config(null, 'test', 'test', new DateTimeImmutable());
         $newConfig = $this->configRepository->insert($config);
 
-        self::assertSame(1, $newConfig->id);
-        self::assertNotSame($config, $newConfig);
+        $this->assertSame(1, $newConfig->id);
+        $this->assertNotSame($config, $newConfig);
     }
 
     public function test_findByKey_returns_null_when_key_is_not_available(): void
     {
         $result = $this->configRepository->findByKey('test');
 
-        self::assertNull($result);
+        $this->assertNull($result);
     }
 
     public function test_findByKey_returns_a_config_model_when_key_is_available(): void
@@ -45,31 +45,31 @@ final class ConfigRepositoryTest extends AbstractTestCase
 
         $result = $this->configRepository->findByKey('test-key');
 
-        self::assertInstanceOf(Config::class, $result);
-        self::assertSame('test-key', $result->key);
-        self::assertSame('test-value', $result->value);
+        $this->assertInstanceOf(Config::class, $result);
+        $this->assertSame('test-key', $result->key);
+        $this->assertSame('test-value', $result->value);
     }
 
     public function test_changeDomainName_works_as_expected(): void
     {
         $result = $this->configRepository->findByKey('domain-name');
 
-        self::assertNull($result);
+        $this->assertNull($result);
 
         $this->configRepository->insert(new Config(null, 'domain-name', 'https://example.com', new DateTimeImmutable()));
 
         $result = $this->configRepository->findByKey('domain-name');
 
-        self::assertInstanceOf(Config::class, $result);
-        self::assertSame('domain-name', $result->key);
-        self::assertSame('https://example.com', $result->value);
+        $this->assertInstanceOf(Config::class, $result);
+        $this->assertSame('domain-name', $result->key);
+        $this->assertSame('https://example.com', $result->value);
 
         $this->configRepository->changeDomainName('https://example-test.com');
 
         $result = $this->configRepository->findByKey('domain-name');
 
-        self::assertInstanceOf(Config::class, $result);
-        self::assertSame('domain-name', $result->key);
-        self::assertSame('https://example-test.com', $result->value);
+        $this->assertInstanceOf(Config::class, $result);
+        $this->assertSame('domain-name', $result->key);
+        $this->assertSame('https://example-test.com', $result->value);
     }
 }

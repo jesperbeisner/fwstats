@@ -17,9 +17,9 @@ final class RenderServiceTest extends TestCase
     public function test_title_creation(): void
     {
         $viewRenderService = new RenderService('', '', new Request([], [], [], [], []), new SessionFake(), new TranslatorDummy());
-        self::assertSame('FWSTATS', $viewRenderService->getTitle());
+        $this->assertSame('FWSTATS', $viewRenderService->getTitle());
 
         $viewRenderService->setTitle('Index');
-        self::assertSame('Index - FWSTATS', $viewRenderService->getTitle());
+        $this->assertSame('Index - FWSTATS', $viewRenderService->getTitle());
     }
 }

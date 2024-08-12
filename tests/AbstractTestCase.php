@@ -16,9 +16,9 @@ use RuntimeException;
 
 abstract class AbstractTestCase extends PHPUnitTestCase
 {
-    protected static ?ContainerInterface $container = null;
+    protected ?ContainerInterface $container = null;
 
-    protected static function setUpContainer(): void
+    protected function setUpContainer(): void
     {
         /** @var ContainerInterface $container */
         $container = require __DIR__ . '/../bootstrap.php';
@@ -31,27 +31,28 @@ abstract class AbstractTestCase extends PHPUnitTestCase
         $container->set(SessionInterface::class, new SessionFake());
         $container->set(TranslatorInterface::class, new TranslatorDummy());
 
-        static::$container = $container;
+        $this->container = $container;
     }
 
-    protected static function setUpDatabase(): void
+    protected function setUpDatabase(): void
     {
-        self::deleteDatabaseFiles();
+        $this->deleteDatabaseFiles();
 
-        static::getContainer()->get(MigrationService::class)->loadMigrations();
+        $this->getContainer()->get(MigrationService::class)->loadMigrations();
     }
 
-    protected static function getContainer(): ContainerInterface
+    protected function getContainer(): ContainerInterface
     {
-        return static::$container ?? throw new RuntimeException('Did you forget to call "setUpContainer" beforehand?');
+        return $this->container ?? throw new RuntimeException('Did you forget to call "setUpContainer" beforehand?');
     }
 
     protected function tearDown(): void
     {
-        self::deleteDatabaseFiles();
+        $this->deleteDatabaseFiles();
+        $this->restoreExceptionHandler();
     }
 
-    private static function deleteDatabaseFiles(): void
+    private function deleteDatabaseFiles(): void
     {
         $dbTestFile = __DIR__ . '/../var/sqlite-test.db';
         if (file_exists($dbTestFile) && false === unlink($dbTestFile)) {
@@ -61,6 +62,21 @@ abstract class AbstractTestCase extends PHPUnitTestCase
         $setupTestFile = __DIR__ . '/../var/setup-test.txt';
         if (file_exists($setupTestFile) && false === unlink($setupTestFile)) {
             throw new RuntimeException(sprintf('Could not unlink file "%s"', $setupTestFile));
+        }
+    }
+
+    private function restoreExceptionHandler(): void
+    {
+        while (true) {
+            $previousHandler = set_exception_handler(static fn() => null);
+
+            restore_exception_handler();
+
+            if ($previousHandler === null) {
+                break;
+            }
+
+            restore_exception_handler();
         }
     }
 }

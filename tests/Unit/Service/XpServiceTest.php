@@ -29,8 +29,8 @@ final class XpServiceTest extends TestCase
 
         $xpChanges = $xpService->getXpChangesForPlayer(new Player(null, WorldEnum::AFSRV, 1, 'test', 'Onlo', 1, 1, 2, null, null, new DateTimeImmutable()), 7);
 
-        self::assertCount(7, $xpChanges);
-        self::assertSame([
+        $this->assertCount(7, $xpChanges);
+        $this->assertSame([
             (new DateTimeImmutable())->format('Y-m-d') => null,
             (new DateTimeImmutable('-1 days'))->format('Y-m-d') => null,
             (new DateTimeImmutable('-2 days'))->format('Y-m-d') => null,
@@ -55,15 +55,15 @@ final class XpServiceTest extends TestCase
 
         $xpChanges = $xpService->getXpChangesForPlayer(new Player(null, WorldEnum::AFSRV, 1, 'test', 'Onlo', 1, 1, 2, null, null, new DateTimeImmutable()), 7);
 
-        self::assertCount(7, $xpChanges);
-        self::assertArrayHasKey((new DateTimeImmutable('-3 days'))->format('Y-m-d'), $xpChanges);
-        self::assertInstanceOf(PlayerXpHistory::class, $xpChanges[(new DateTimeImmutable('-3 days'))->format('Y-m-d')]);
-        self::assertArrayHasKey((new DateTimeImmutable('-4 days'))->format('Y-m-d'), $xpChanges);
-        self::assertInstanceOf(PlayerXpHistory::class, $xpChanges[(new DateTimeImmutable('-4 days'))->format('Y-m-d')]);
-        self::assertArrayHasKey((new DateTimeImmutable())->format('Y-m-d'), $xpChanges);
-        self::assertNull($xpChanges[(new DateTimeImmutable())->format('Y-m-d')]);
-        self::assertArrayHasKey((new DateTimeImmutable('-5 days'))->format('Y-m-d'), $xpChanges);
-        self::assertNull($xpChanges[(new DateTimeImmutable('-5 days'))->format('Y-m-d')]);
+        $this->assertCount(7, $xpChanges);
+        $this->assertArrayHasKey((new DateTimeImmutable('-3 days'))->format('Y-m-d'), $xpChanges);
+        $this->assertInstanceOf(PlayerXpHistory::class, $xpChanges[(new DateTimeImmutable('-3 days'))->format('Y-m-d')]);
+        $this->assertArrayHasKey((new DateTimeImmutable('-4 days'))->format('Y-m-d'), $xpChanges);
+        $this->assertInstanceOf(PlayerXpHistory::class, $xpChanges[(new DateTimeImmutable('-4 days'))->format('Y-m-d')]);
+        $this->assertArrayHasKey((new DateTimeImmutable())->format('Y-m-d'), $xpChanges);
+        $this->assertNull($xpChanges[(new DateTimeImmutable())->format('Y-m-d')]);
+        $this->assertArrayHasKey((new DateTimeImmutable('-5 days'))->format('Y-m-d'), $xpChanges);
+        $this->assertNull($xpChanges[(new DateTimeImmutable('-5 days'))->format('Y-m-d')]);
     }
 
     public function test_it_returns_an_array_with_the_length_of_days(): void
@@ -77,6 +77,6 @@ final class XpServiceTest extends TestCase
 
         $xpChanges = $xpService->getXpChangesForPlayer(new Player(null, WorldEnum::AFSRV, 1, 'test', 'Onlo', 1, 1, 2, null, null, new DateTimeImmutable()), 100);
 
-        self::assertCount(100, $xpChanges);
+        $this->assertCount(100, $xpChanges);
     }
 }

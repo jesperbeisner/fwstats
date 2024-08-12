@@ -26,11 +26,11 @@ final class DotEnvLoaderTest extends TestCase
     {
         DotEnvLoader::load([__DIR__ . '/../_Fixtures/DotEnv/.env.valid-values.php']);
 
-        self::assertSame('dev', $_ENV['APP_ENV']);
-        self::assertSame('Hello world', $_ENV['STRING']);
-        self::assertSame(123, $_ENV['INTEGER']);
-        self::assertSame(123.456, $_ENV['FLOAT']);
-        self::assertTrue($_ENV['BOOL']);
+        $this->assertSame('dev', $_ENV['APP_ENV']);
+        $this->assertSame('Hello world', $_ENV['STRING']);
+        $this->assertSame(123, $_ENV['INTEGER']);
+        $this->assertSame(123.456, $_ENV['FLOAT']);
+        $this->assertTrue($_ENV['BOOL']);
     }
 
     public function test_it_will_overwrite_values_from_previous_files(): void
@@ -40,19 +40,19 @@ final class DotEnvLoaderTest extends TestCase
             __DIR__ . '/../_Fixtures/DotEnv/.env.valid-values_second_file.php',
         ]);
 
-        self::assertSame('prod', $_ENV['APP_ENV']);
-        self::assertSame('Hello world', $_ENV['STRING']);
-        self::assertSame(123, $_ENV['INTEGER']);
-        self::assertSame(123.456, $_ENV['FLOAT']);
-        self::assertTrue($_ENV['BOOL']);
+        $this->assertSame('prod', $_ENV['APP_ENV']);
+        $this->assertSame('Hello world', $_ENV['STRING']);
+        $this->assertSame(123, $_ENV['INTEGER']);
+        $this->assertSame(123.456, $_ENV['FLOAT']);
+        $this->assertTrue($_ENV['BOOL']);
     }
 
     public function test_it_will_throw_a_RuntimeException_when_the_file_does_not_return_an_array(): void
     {
         $dotEnvFile = __DIR__ . '/../_Fixtures/DotEnv/.env.no-array-return.php';
 
-        self::expectException(RuntimeException::class);
-        self::expectExceptionMessage(sprintf('The file "%s" did not return an array.', $dotEnvFile));
+        $this->expectException(RuntimeException::class);
+        $this->expectExceptionMessage(sprintf('The file "%s" did not return an array.', $dotEnvFile));
 
         DotEnvLoader::load([$dotEnvFile]);
     }
@@ -61,8 +61,8 @@ final class DotEnvLoaderTest extends TestCase
     {
         $dotEnvFile = __DIR__ . '/../_Fixtures/DotEnv/.env.invalid-array-keys.php';
 
-        self::expectException(RuntimeException::class);
-        self::expectExceptionMessage(sprintf('Only string values are allowed as array keys in file "%s".', $dotEnvFile));
+        $this->expectException(RuntimeException::class);
+        $this->expectExceptionMessage(sprintf('Only string values are allowed as array keys in file "%s".', $dotEnvFile));
 
         DotEnvLoader::load([$dotEnvFile]);
     }
@@ -71,8 +71,8 @@ final class DotEnvLoaderTest extends TestCase
     {
         $dotEnvFile = __DIR__ . '/../_Fixtures/DotEnv/.env.invalid-array-values.php';
 
-        self::expectException(RuntimeException::class);
-        self::expectExceptionMessage(sprintf('Only scalar values are allowed as array values in file "%s".', $dotEnvFile));
+        $this->expectException(RuntimeException::class);
+        $this->expectExceptionMessage(sprintf('Only scalar values are allowed as array values in file "%s".', $dotEnvFile));
 
         DotEnvLoader::load([$dotEnvFile]);
     }

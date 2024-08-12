@@ -19,33 +19,33 @@ final class AdminControllerTest extends AbstractTestCase
 {
     protected function setUp(): void
     {
-        self::setUpContainer();
-        self::setUpDatabase();
+        $this->setUpContainer();
+        $this->setUpDatabase();
     }
 
     public function test_get_request_without_login(): void
     {
         $request = new Request(['REQUEST_URI' => '/admin', 'REQUEST_METHOD' => 'GET'], [], [], [], []);
-        self::getContainer()->set(Request::class, $request);
+        $this->getContainer()->set(Request::class, $request);
 
-        $response = (new Application(self::getContainer()))->handle($request);
+        $response = (new Application($this->getContainer()))->handle($request);
 
-        self::assertSame(302, $response->statusCode);
-        self::assertSame('/login', $response->location);
+        $this->assertSame(302, $response->statusCode);
+        $this->assertSame('/login', $response->location);
     }
 
     public function test_get_request_with_login(): void
     {
         $request = new Request(['REQUEST_URI' => '/admin', 'REQUEST_METHOD' => 'GET'], [], [], [], []);
-        self::getContainer()->set(Request::class, $request);
+        $this->getContainer()->set(Request::class, $request);
 
         $user = new User(1, 'test', 'test', 'test', 'test', new DateTimeImmutable());
-        self::getContainer()->get(SessionInterface::class)->setUser($user);
+        $this->getContainer()->get(SessionInterface::class)->setUser($user);
 
-        $response = (new Application(self::getContainer()))->handle($request);
+        $response = (new Application($this->getContainer()))->handle($request);
 
-        self::assertSame(200, $response->statusCode);
-        self::assertSame(Response::CONTENT_TYPE_HTML, $response->contentType);
-        self::assertSame('admin/admin.phtml', $response->template);
+        $this->assertSame(200, $response->statusCode);
+        $this->assertSame(Response::CONTENT_TYPE_HTML, $response->contentType);
+        $this->assertSame('admin/admin.phtml', $response->template);
     }
 }

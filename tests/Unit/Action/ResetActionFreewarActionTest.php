@@ -58,7 +58,7 @@ final class ResetActionFreewarActionTest extends TestCase
 
         $result = $resetActionFreewarAction->configure([])->run();
 
-        self::assertTrue($result->isSuccess());
-        self::assertSame('text.reset-action-freewar-success', $result->getMessage());
+        $this->assertTrue($result->isSuccess());
+        $this->assertSame('text.reset-action-freewar-success', $result->getMessage());
     }
 }

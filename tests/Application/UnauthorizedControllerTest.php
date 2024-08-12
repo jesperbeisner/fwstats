@@ -15,8 +15,8 @@ final class UnauthorizedControllerTest extends AbstractTestCase
 {
     protected function setUp(): void
     {
-        self::setUpContainer();
-        self::setUpDatabase();
+        $this->setUpContainer();
+        $this->setUpDatabase();
     }
 
     public function test_get_request(): void
@@ -25,8 +25,8 @@ final class UnauthorizedControllerTest extends AbstractTestCase
 
         $response = (new UnauthorizedController())->execute($request);
 
-        self::assertSame(401, $response->statusCode);
-        self::assertSame(Response::CONTENT_TYPE_JSON, $response->contentType);
-        self::assertSame('{"Error":"No token was specified or the token is not valid."}', $response->content);
+        $this->assertSame(401, $response->statusCode);
+        $this->assertSame(Response::CONTENT_TYPE_JSON, $response->contentType);
+        $this->assertSame('{"Error":"No token was specified or the token is not valid."}', $response->content);
     }
 }

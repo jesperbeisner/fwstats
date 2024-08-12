@@ -15,19 +15,19 @@ final class ProfessionChangeImageControllerTest extends AbstractTestCase
 {
     protected function setUp(): void
     {
-        self::setUpContainer();
-        self::setUpDatabase();
+        $this->setUpContainer();
+        $this->setUpDatabase();
     }
 
     public function test_get_request(): void
     {
         $request = new Request(['REQUEST_URI' => '/images/changes/professions', 'REQUEST_METHOD' => 'GET'], [], [], [], []);
-        self::getContainer()->set(Request::class, $request);
+        $this->getContainer()->set(Request::class, $request);
 
-        $response = (new Application(self::getContainer()))->handle($request);
+        $response = (new Application($this->getContainer()))->handle($request);
 
-        self::assertSame(200, $response->statusCode);
-        self::assertSame('image/profession-changes.phtml', $response->template);
-        self::assertNotEmpty($response->vars);
+        $this->assertSame(200, $response->statusCode);
+        $this->assertSame('image/profession-changes.phtml', $response->template);
+        $this->assertNotEmpty($response->vars);
     }
 }

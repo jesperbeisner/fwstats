@@ -19,44 +19,44 @@ final class ResetActionFreewarControllerTest extends AbstractTestCase
 {
     protected function setUp(): void
     {
-        self::setUpContainer();
-        self::setUpDatabase();
+        $this->setUpContainer();
+        $this->setUpDatabase();
     }
 
     public function test_get_request(): void
     {
         $request = new Request(['REQUEST_URI' => '/admin/reset-action-freewar', 'REQUEST_METHOD' => 'GET'], [], [], [], []);
-        self::getContainer()->set(Request::class, $request);
+        $this->getContainer()->set(Request::class, $request);
 
-        $response = (new Application(self::getContainer()))->handle($request);
+        $response = (new Application($this->getContainer()))->handle($request);
 
-        self::assertSame(405, $response->statusCode);
-        self::assertSame(Response::CONTENT_TYPE_JSON, $response->contentType);
-        self::assertSame('{"Error":"Method not allowed."}', $response->content);
+        $this->assertSame(405, $response->statusCode);
+        $this->assertSame(Response::CONTENT_TYPE_JSON, $response->contentType);
+        $this->assertSame('{"Error":"Method not allowed."}', $response->content);
     }
 
     public function test_post_request_without_login(): void
     {
         $request = new Request(['REQUEST_URI' => '/admin/reset-action-freewar', 'REQUEST_METHOD' => 'POST'], [], [], [], []);
-        self::getContainer()->set(Request::class, $request);
+        $this->getContainer()->set(Request::class, $request);
 
-        $response = (new Application(self::getContainer()))->handle($request);
+        $response = (new Application($this->getContainer()))->handle($request);
 
-        self::assertSame(302, $response->statusCode);
-        self::assertSame('/login', $response->location);
+        $this->assertSame(302, $response->statusCode);
+        $this->assertSame('/login', $response->location);
     }
 
     public function test_post_request_with_login(): void
     {
         $request = new Request(['REQUEST_URI' => '/admin/reset-action-freewar', 'REQUEST_METHOD' => 'POST'], [], [], [], []);
-        self::getContainer()->set(Request::class, $request);
+        $this->getContainer()->set(Request::class, $request);
 
-        $session = self::getContainer()->get(SessionInterface::class);
+        $session = $this->getContainer()->get(SessionInterface::class);
         $session->setUser(new User(1, 'test', 'test', 'test', 'test', new DateTimeImmutable()));
 
-        $response = (new Application(self::getContainer()))->handle($request);
+        $response = (new Application($this->getContainer()))->handle($request);
 
-        self::assertSame(303, $response->statusCode);
-        self::assertSame('/admin', $response->location);
+        $this->assertSame(303, $response->statusCode);
+        $this->assertSame('/admin', $response->location);
     }
 }

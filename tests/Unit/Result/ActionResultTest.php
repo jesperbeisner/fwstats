@@ -16,8 +16,8 @@ final class ActionResultTest extends TestCase
     {
         $result = new ActionResult(ResultEnum::SUCCESS, 'test', ['test' => 'test']);
 
-        self::assertTrue($result->isSuccess());
-        self::assertSame('test', $result->getMessage());
-        self::assertSame(['test' => 'test'], $result->getData());
+        $this->assertTrue($result->isSuccess());
+        $this->assertSame('test', $result->getMessage());
+        $this->assertSame(['test' => 'test'], $result->getData());
     }
 }

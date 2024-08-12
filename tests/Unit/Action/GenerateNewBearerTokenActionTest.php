@@ -22,8 +22,8 @@ final class GenerateNewBearerTokenActionTest extends TestCase
         $userRepository = new UserRepository($database);
         $generateNewBearerTokenAction = new GenerateNewBearerTokenAction($userRepository);
 
-        self::expectException(RuntimeException::class);
-        self::expectExceptionMessage('No user and/or token set in "GenerateNewBearerTokenAction::configure".');
+        $this->expectException(RuntimeException::class);
+        $this->expectExceptionMessage('No user and/or token set in "GenerateNewBearerTokenAction::configure".');
 
         $generateNewBearerTokenAction->configure(['user-not-set' => 'test', 'token' => 'test']);
     }
@@ -34,8 +34,8 @@ final class GenerateNewBearerTokenActionTest extends TestCase
         $userRepository = new UserRepository($database);
         $generateNewBearerTokenAction = new GenerateNewBearerTokenAction($userRepository);
 
-        self::expectException(RuntimeException::class);
-        self::expectExceptionMessage('No user and/or token set in "GenerateNewBearerTokenAction::configure".');
+        $this->expectException(RuntimeException::class);
+        $this->expectExceptionMessage('No user and/or token set in "GenerateNewBearerTokenAction::configure".');
 
         $generateNewBearerTokenAction->configure(['user' => 'test', 'token-not-set' => 'test']);
     }
@@ -46,8 +46,8 @@ final class GenerateNewBearerTokenActionTest extends TestCase
         $userRepository = new UserRepository($database);
         $generateNewBearerTokenAction = new GenerateNewBearerTokenAction($userRepository);
 
-        self::expectException(RuntimeException::class);
-        self::expectExceptionMessage(sprintf('The user set in the "GenerateNewBearerTokenAction::configure" method is not an instance of "%s".', User::class));
+        $this->expectException(RuntimeException::class);
+        $this->expectExceptionMessage(sprintf('The user set in the "GenerateNewBearerTokenAction::configure" method is not an instance of "%s".', User::class));
 
         $generateNewBearerTokenAction->configure(['user' => 'test', 'token' => 'test']);
     }
@@ -60,8 +60,8 @@ final class GenerateNewBearerTokenActionTest extends TestCase
         $userRepository = new UserRepository($database);
         $generateNewBearerTokenAction = new GenerateNewBearerTokenAction($userRepository);
 
-        self::expectException(RuntimeException::class);
-        self::expectExceptionMessage('The token set in the "GenerateNewBearerTokenAction::configure" method is not a string.');
+        $this->expectException(RuntimeException::class);
+        $this->expectExceptionMessage('The token set in the "GenerateNewBearerTokenAction::configure" method is not a string.');
 
         $generateNewBearerTokenAction->configure(['user' => $user, 'token' => 123]);
     }
@@ -74,8 +74,8 @@ final class GenerateNewBearerTokenActionTest extends TestCase
         $userRepository = new UserRepository($database);
         $generateNewBearerTokenAction = new GenerateNewBearerTokenAction($userRepository);
 
-        self::expectException(RuntimeException::class);
-        self::expectExceptionMessage('The token set in the "GenerateNewBearerTokenAction::configure" method is not exactly 32 characters long.');
+        $this->expectException(RuntimeException::class);
+        $this->expectExceptionMessage('The token set in the "GenerateNewBearerTokenAction::configure" method is not exactly 32 characters long.');
 
         $generateNewBearerTokenAction->configure(['user' => $user, 'token' => 'test']);
     }
@@ -86,8 +86,8 @@ final class GenerateNewBearerTokenActionTest extends TestCase
         $userRepository = new UserRepository($database);
         $generateNewBearerTokenAction = new GenerateNewBearerTokenAction($userRepository);
 
-        self::expectException(RuntimeException::class);
-        self::expectExceptionMessage('You need to call "configure" before you can call "run".');
+        $this->expectException(RuntimeException::class);
+        $this->expectExceptionMessage('You need to call "configure" before you can call "run".');
 
         $generateNewBearerTokenAction->run();
     }
@@ -102,7 +102,7 @@ final class GenerateNewBearerTokenActionTest extends TestCase
 
         $result = $generateNewBearerTokenAction->configure(['user' => $user, 'token' => str_repeat('0', 32)])->run();
 
-        self::assertTrue($result->isSuccess());
-        self::assertSame('text.new-token-generated-successfully', $result->getMessage());
+        $this->assertTrue($result->isSuccess());
+        $this->assertSame('text.new-token-generated-successfully', $result->getMessage());
     }
 }

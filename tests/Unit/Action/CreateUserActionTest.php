@@ -25,48 +25,48 @@ final class CreateUserActionTest extends TestCase
 
     public function test_will_throw_RuntimeException_when_username_is_not_set(): void
     {
-        self::expectException(RuntimeException::class);
-        self::expectExceptionMessage('No username and/or password set in "CreateUserAction::configure".');
+        $this->expectException(RuntimeException::class);
+        $this->expectExceptionMessage('No username and/or password set in "CreateUserAction::configure".');
 
         $this->createUserAction->configure(['no-username' => 'test', 'password' => 'Password123']);
     }
 
     public function test_will_throw_RuntimeException_when_password_is_not_set(): void
     {
-        self::expectException(RuntimeException::class);
-        self::expectExceptionMessage('No username and/or password set in "CreateUserAction::configure".');
+        $this->expectException(RuntimeException::class);
+        $this->expectExceptionMessage('No username and/or password set in "CreateUserAction::configure".');
 
         $this->createUserAction->configure(['username' => 'test', 'no-password' => 'Password123']);
     }
 
     public function test_will_throw_RuntimeException_when_username_is_not_a_string(): void
     {
-        self::expectException(RuntimeException::class);
-        self::expectExceptionMessage('The username and/or password set in the "CreateUserAction::configure" method is not a string.');
+        $this->expectException(RuntimeException::class);
+        $this->expectExceptionMessage('The username and/or password set in the "CreateUserAction::configure" method is not a string.');
 
         $this->createUserAction->configure(['username' => 123, 'password' => 'Password123']);
     }
 
     public function test_will_throw_RuntimeException_when_password_is_not_a_string(): void
     {
-        self::expectException(RuntimeException::class);
-        self::expectExceptionMessage('The username and/or password set in the "CreateUserAction::configure" method is not a string.');
+        $this->expectException(RuntimeException::class);
+        $this->expectExceptionMessage('The username and/or password set in the "CreateUserAction::configure" method is not a string.');
 
         $this->createUserAction->configure(['username' => 'test', 'password' => 123]);
     }
 
     public function test_will_throw_ActionException_when_username_is_not_valid(): void
     {
-        self::expectException(ActionException::class);
-        self::expectExceptionMessage('text.username-not-long-enough');
+        $this->expectException(ActionException::class);
+        $this->expectExceptionMessage('text.username-not-long-enough');
 
         $this->createUserAction->configure(['username' => 'a', 'password' => 'Password123']);
     }
 
     public function test_will_throw_ActionException_when_password_is_not_at_least_8_characters_long(): void
     {
-        self::expectException(ActionException::class);
-        self::expectExceptionMessage('text.password-not-long-enough');
+        $this->expectException(ActionException::class);
+        $this->expectExceptionMessage('text.password-not-long-enough');
 
         $this->createUserAction->configure(['username' => 'test', 'password' => 'test']);
     }
@@ -87,8 +87,8 @@ final class CreateUserActionTest extends TestCase
 
         $createUserAction->configure(['username' => 'test', 'password' => 'Test1234567890']);
 
-        self::expectException(ActionException::class);
-        self::expectExceptionMessage('text.username-already-exists');
+        $this->expectException(ActionException::class);
+        $this->expectExceptionMessage('text.username-already-exists');
 
         $createUserAction->run();
     }
@@ -99,8 +99,8 @@ final class CreateUserActionTest extends TestCase
 
         $createUserActionResult = $this->createUserAction->run();
 
-        self::assertTrue($createUserActionResult->isSuccess());
-        self::assertSame('text.user-created-successfully', $createUserActionResult->getMessage());
-        self::assertArrayHasKey('user', $createUserActionResult->getData());
+        $this->assertTrue($createUserActionResult->isSuccess());
+        $this->assertSame('text.user-created-successfully', $createUserActionResult->getMessage());
+        $this->assertArrayHasKey('user', $createUserActionResult->getData());
     }
 }

@@ -19,10 +19,10 @@ final class AchievementRepositoryTest extends AbstractTestCase
 
     protected function setUp(): void
     {
-        self::setUpContainer();
-        self::setUpDatabase();
+        $this->setUpContainer();
+        $this->setUpDatabase();
 
-        $this->achievementRepository = self::getContainer()->get(AchievementRepository::class);
+        $this->achievementRepository = $this->getContainer()->get(AchievementRepository::class);
     }
 
     public function test_insert(): void
@@ -30,8 +30,8 @@ final class AchievementRepositoryTest extends AbstractTestCase
         $achievement = new Achievement(null, WorldEnum::AFSRV, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, new DateTimeImmutable());
         $newAchievement = $this->achievementRepository->insert($achievement);
 
-        self::assertSame(1, $newAchievement->id);
-        self::assertNotSame($achievement, $newAchievement);
+        $this->assertSame(1, $newAchievement->id);
+        $this->assertNotSame($achievement, $newAchievement);
     }
 
     public function test_findByPlayer_without_available_achievement(): void
@@ -40,7 +40,7 @@ final class AchievementRepositoryTest extends AbstractTestCase
 
         $result = $this->achievementRepository->findByPlayer($player);
 
-        self::assertNull($result);
+        $this->assertNull($result);
     }
 
     public function test_findByPlayer_with_available_achievement(): void
@@ -52,7 +52,7 @@ final class AchievementRepositoryTest extends AbstractTestCase
 
         $result = $this->achievementRepository->findByPlayer($player);
 
-        self::assertInstanceOf(Achievement::class, $result);
-        self::assertSame(1, $result->playerId);
+        $this->assertInstanceOf(Achievement::class, $result);
+        $this->assertSame(1, $result->playerId);
     }
 }

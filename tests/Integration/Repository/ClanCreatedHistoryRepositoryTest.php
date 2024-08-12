@@ -18,10 +18,10 @@ final class ClanCreatedHistoryRepositoryTest extends AbstractTestCase
 
     protected function setUp(): void
     {
-        self::setUpContainer();
-        self::setUpDatabase();
+        $this->setUpContainer();
+        $this->setUpDatabase();
 
-        $this->clanCreatedHistoryRepository = self::getContainer()->get(ClanCreatedHistoryRepository::class);
+        $this->clanCreatedHistoryRepository = $this->getContainer()->get(ClanCreatedHistoryRepository::class);
     }
 
     public function test_insert(): void
@@ -29,7 +29,7 @@ final class ClanCreatedHistoryRepositoryTest extends AbstractTestCase
         $clanCreatedHistory = new ClanCreatedHistory(null, WorldEnum::AFSRV, 1, 'o.O', 'test', 1, 1, 1, 1, new DateTimeImmutable());
         $newClanCreatedHistory = $this->clanCreatedHistoryRepository->insert($clanCreatedHistory);
 
-        self::assertSame(1, $newClanCreatedHistory->id);
-        self::assertNotSame($clanCreatedHistory, $newClanCreatedHistory);
+        $this->assertSame(1, $newClanCreatedHistory->id);
+        $this->assertNotSame($clanCreatedHistory, $newClanCreatedHistory);
     }
 }

@@ -16,35 +16,35 @@ final class LogoutControllerTest extends AbstractTestCase
 {
     protected function setUp(): void
     {
-        self::setUpContainer();
-        self::setUpDatabase();
+        $this->setUpContainer();
+        $this->setUpDatabase();
     }
 
     public function test_get_request(): void
     {
         $request = new Request(['REQUEST_URI' => '/logout', 'REQUEST_METHOD' => 'GET'], [], [], [], []);
-        self::getContainer()->set(Request::class, $request);
+        $this->getContainer()->set(Request::class, $request);
 
-        $response = (new Application(self::getContainer()))->handle($request);
+        $response = (new Application($this->getContainer()))->handle($request);
 
-        self::assertSame(302, $response->statusCode);
-        self::assertSame('/', $response->location);
+        $this->assertSame(302, $response->statusCode);
+        $this->assertSame('/', $response->location);
     }
 
     public function test_get_request_deletes_session(): void
     {
         $request = new Request(['REQUEST_URI' => '/logout', 'REQUEST_METHOD' => 'GET'], [], [], [], []);
-        self::getContainer()->set(Request::class, $request);
+        $this->getContainer()->set(Request::class, $request);
 
-        $session = self::getContainer()->get(SessionInterface::class);
+        $session = $this->getContainer()->get(SessionInterface::class);
         $session->set('test', 'test');
 
-        self::assertSame('test', $session->get('test'));
+        $this->assertSame('test', $session->get('test'));
 
-        $response = (new Application(self::getContainer()))->handle($request);
+        $response = (new Application($this->getContainer()))->handle($request);
 
-        self::assertSame(302, $response->statusCode);
-        self::assertSame('/', $response->location);
-        self::assertNull($session->get('test'));
+        $this->assertSame(302, $response->statusCode);
+        $this->assertSame('/', $response->location);
+        $this->assertNull($session->get('test'));
     }
 }

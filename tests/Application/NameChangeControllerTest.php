@@ -16,20 +16,20 @@ final class NameChangeControllerTest extends AbstractTestCase
 {
     protected function setUp(): void
     {
-        self::setUpContainer();
-        self::setUpDatabase();
+        $this->setUpContainer();
+        $this->setUpDatabase();
     }
 
     public function test_get_request(): void
     {
         $request = new Request(['REQUEST_URI' => '/changes/names', 'REQUEST_METHOD' => 'GET'], [], [], [], []);
-        self::getContainer()->set(Request::class, $request);
+        $this->getContainer()->set(Request::class, $request);
 
-        $response = (new Application(self::getContainer()))->handle($request);
+        $response = (new Application($this->getContainer()))->handle($request);
 
-        self::assertSame(200, $response->statusCode);
-        self::assertSame(Response::CONTENT_TYPE_HTML, $response->contentType);
-        self::assertSame('changes/names.phtml', $response->template);
-        self::assertNotEmpty($response->vars);
+        $this->assertSame(200, $response->statusCode);
+        $this->assertSame(Response::CONTENT_TYPE_HTML, $response->contentType);
+        $this->assertSame('changes/names.phtml', $response->template);
+        $this->assertNotEmpty($response->vars);
     }
 }
