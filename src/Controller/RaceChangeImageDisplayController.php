@@ -14,7 +14,7 @@ use Jesperbeisner\Fwstats\Stdlib\Response;
  */
 final readonly class RaceChangeImageDisplayController implements ControllerInterface
 {
-    private const RACE_CHANGES_IMAGE = '/var/%WORLD%-race-changes.png';
+    private const string RACE_CHANGES_IMAGE = '/var/%WORLD%-race-changes.png';
 
     public function __construct(
         private string $rootDir,

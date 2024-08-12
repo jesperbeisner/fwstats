@@ -14,7 +14,7 @@ use Jesperbeisner\Fwstats\Stdlib\Response;
  */
 final readonly class BanAndDeletionImageDisplayController implements ControllerInterface
 {
-    private const NAME_CHANGES_IMAGE = '/var/%WORLD%-bans-and-deletions.png';
+    private const string NAME_CHANGES_IMAGE = '/var/%WORLD%-bans-and-deletions.png';
 
     public function __construct(
         private string $rootDir,

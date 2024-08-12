@@ -11,7 +11,7 @@ use Jesperbeisner\Fwstats\Model\Player;
 
 final readonly class PlayerStatusService implements PlayerStatusServiceInterface
 {
-    private const PROFILE_URL = 'https://%WORLD%.freewar.de/freewar/internal/fight.php?action=watchuser&act_user_id=%PLAYER_ID%';
+    private const string PROFILE_URL = 'https://%WORLD%.freewar.de/freewar/internal/fight.php?action=watchuser&act_user_id=%PLAYER_ID%';
 
     public function getStatus(Player $player): PlayerStatusEnum
     {

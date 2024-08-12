@@ -14,7 +14,7 @@ use Jesperbeisner\Fwstats\Stdlib\Response;
  */
 final readonly class RankingImageDisplayController implements ControllerInterface
 {
-    private const RANKING_IMAGE = '/var/%WORLD%-ranking.png';
+    private const string RANKING_IMAGE = '/var/%WORLD%-ranking.png';
 
     public function __construct(
         private string $rootDir,

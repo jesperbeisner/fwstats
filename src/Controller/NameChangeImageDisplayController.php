@@ -14,7 +14,7 @@ use Jesperbeisner\Fwstats\Stdlib\Response;
  */
 final readonly class NameChangeImageDisplayController implements ControllerInterface
 {
-    private const NAME_CHANGES_IMAGE = '/var/%WORLD%-name-changes.png';
+    private const string NAME_CHANGES_IMAGE = '/var/%WORLD%-name-changes.png';
 
     public function __construct(
         private string $rootDir,

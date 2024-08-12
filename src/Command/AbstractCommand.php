@@ -8,8 +8,8 @@ use Jesperbeisner\Fwstats\Exception\RuntimeException;
 
 abstract class AbstractCommand
 {
-    protected const SUCCESS = 0;
-    protected const FAILURE = 1;
+    protected const int SUCCESS = 0;
+    protected const int FAILURE = 1;
 
     public static string $name = '';
     public static string $description = '';

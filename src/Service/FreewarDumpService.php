@@ -13,11 +13,12 @@ use Jesperbeisner\Fwstats\Model\Player;
 
 final readonly class FreewarDumpService implements FreewarDumpServiceInterface
 {
-    private const ADMINS = ['Sotrax', 'bwoebi', 'Nyrea', 'Andocai', 'alexa'];
+    /** @var list<string> */
+    private const array ADMINS = ['Sotrax', 'bwoebi', 'Nyrea', 'Andocai', 'alexa'];
 
-    private const PLAYERS_DUMP_URL = 'https://[WORLD].freewar.de/freewar/dump_players.php';
-    private const CLANS_DUMP_URL = 'https://[WORLD].freewar.de/freewar/dump_clans.php';
-    private const ACHIEVEMENTS_DUMP_URL = 'https://[WORLD].freewar.de/freewar/dump_achieves.php';
+    private const string PLAYERS_DUMP_URL = 'https://[WORLD].freewar.de/freewar/dump_players.php';
+    private const string CLANS_DUMP_URL = 'https://[WORLD].freewar.de/freewar/dump_clans.php';
+    private const string ACHIEVEMENTS_DUMP_URL = 'https://[WORLD].freewar.de/freewar/dump_achieves.php';
 
     public function getPlayersDump(WorldEnum $world): array
     {

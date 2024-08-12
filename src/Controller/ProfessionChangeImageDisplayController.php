@@ -14,7 +14,7 @@ use Jesperbeisner\Fwstats\Stdlib\Response;
  */
 final readonly class ProfessionChangeImageDisplayController implements ControllerInterface
 {
-    private const PROFESSION_CHANGES_IMAGE = '/var/%WORLD%-profession-changes.png';
+    private const string PROFESSION_CHANGES_IMAGE = '/var/%WORLD%-profession-changes.png';
 
     public function __construct(
         private string $rootDir,

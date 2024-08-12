@@ -10,10 +10,10 @@ use JsonException;
 
 final class Response
 {
-    public const CONTENT_TYPE_HTML = 'text/html; charset=UTF-8';
-    public const CONTENT_TYPE_TEXT = 'text/plain; charset=UTF-8';
-    public const CONTENT_TYPE_JSON = 'application/json; charset=UTF-8';
-    public const CONTENT_TYPE_IMAGE = 'image/png';
+    public const string CONTENT_TYPE_HTML = 'text/html; charset=UTF-8';
+    public const string CONTENT_TYPE_TEXT = 'text/plain; charset=UTF-8';
+    public const string CONTENT_TYPE_JSON = 'application/json; charset=UTF-8';
+    public const string CONTENT_TYPE_IMAGE = 'image/png';
 
     private ?RenderService $renderService = null;
 
