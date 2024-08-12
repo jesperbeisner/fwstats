@@ -8,14 +8,14 @@ on:
 
 jobs:
     testing:
-        name: "Run PHP-CS-Fixer, PHPUnit and PHPStan"
+        name: "Run PHP-CS-Fixer, PHPStan and PHPUnit"
         runs-on: ubuntu-22.04
 
         steps:
             -   name: "Setup PHP"
                 uses: shivammathur/setup-php@v2
                 with:
-                    php-version: "8.2"
+                    php-version: "8.3"
                     tools: composer:v2
                     ini-values: "memory_limit=-1"
                 env:
@@ -27,5 +27,11 @@ jobs:
             -   name: "Install Dependencies"
                 run: composer install
 
-            -   name: "Run Full Testsuite"
-                run: composer test
+            -   name: "Run PHP-CS-Fixer"
+                run: php vendor/bin/php-cs-fixer fix --diff --verbose --dry-run
+
+            -   name: "Run PHPStan"
+                run: php vendor/bin/phpstan analyse
+
+            -   name: "Run PHPUnit"
+                run: php vendor/bin/phpunit
