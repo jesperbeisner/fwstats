@@ -4,8 +4,12 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>FWSTATS</title>
+
+    @vite('resources/css/app.css')
 </head>
-<body>
+<body class="bg-gray-50">
     {{ $slot }}
+
+    @vite('resources/js/app.js')
 </body>
 </html>

@@ -15,6 +15,9 @@ reset-db: ## Reset database
 migrate: ## Migrate the database
 	docker compose exec php php artisan migrate
 
+watch: ## Watch assets
+	docker compose exec php npm run dev
+
 test: ## Run whole testsuite
 	-docker compose exec php php -d memory_limit=-1 vendor/bin/php-cs-fixer fix --diff --verbose
 	-docker compose exec php php -d memory_limit=-1 vendor/bin/phpstan analyse
