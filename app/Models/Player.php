@@ -7,11 +7,11 @@ namespace App\Models;
 use App\Enums\ProfessionEnum;
 use App\Enums\RaceEnum;
 use App\Enums\WorldEnum;
+use Carbon\CarbonImmutable;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Support\Carbon;
 
 /**
- * @property int $id
+ * @property-read int $id
  * @property WorldEnum $world
  * @property int $player_id
  * @property string $name
@@ -21,8 +21,8 @@ use Illuminate\Support\Carbon;
  * @property int $xp
  * @property int $soul_xp
  * @property int $total_xp
- * @property Carbon $created_at
- * @property Carbon $updated_at
+ * @property CarbonImmutable $created_at
+ * @property CarbonImmutable $updated_at
  */
 final class Player extends Model
 {
