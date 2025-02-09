@@ -61,17 +61,5 @@ $ignoreErrors[] = [
 	'count' => 1,
 	'path' => __DIR__ . '/../routes/console.php',
 ];
-$ignoreErrors[] = [
-	'message' => '#^Call to method PHPUnit\\\\Framework\\\\Assert\\:\\:assertTrue\\(\\) with true will always evaluate to true\\.$#',
-	'identifier' => 'method.alreadyNarrowedType',
-	'count' => 1,
-	'path' => __DIR__ . '/../tests/Unit/ExampleTest.php',
-];
-$ignoreErrors[] = [
-	'message' => '#^Dynamic call to static method PHPUnit\\\\Framework\\\\Assert\\:\\:assertTrue\\(\\)\\.$#',
-	'identifier' => 'staticMethod.dynamicCall',
-	'count' => 1,
-	'path' => __DIR__ . '/../tests/Unit/ExampleTest.php',
-];
 
 return ['parameters' => ['ignoreErrors' => $ignoreErrors]];
