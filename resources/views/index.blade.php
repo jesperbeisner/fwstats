@@ -1,3 +1,5 @@
 <x-app>
-    <h1>FWSTATS</h1>
+    <x-card>
+        <h1>Rangliste</h1>
+    </x-card>
 </x-app>
