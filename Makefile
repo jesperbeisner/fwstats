@@ -37,3 +37,9 @@ phpstan-baseline: ## Generate PHPStan Baseline
 
 phpunit: ## Run PHPUnit
 	docker compose exec php php -d memory_limit=-1 vendor/bin/phpunit --testsuite Unit,Feature
+
+composer-install: ## Install composer packages
+	docker compose run --rm --entrypoint="composer install" --no-deps php
+
+npm-install: ## Install npm packages
+	docker compose run --rm --entrypoint="npm install" --no-deps php
