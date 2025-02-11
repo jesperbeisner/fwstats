@@ -9,7 +9,7 @@ use Illuminate\Support\Facades\Schema;
 return new class() extends Migration {
     public function up(): void
     {
-        Schema::create('players', function (Blueprint $table) {
+        Schema::create('player_imports', function (Blueprint $table) {
             $table->id();
             $table->string('world');
             $table->unsignedInteger('player_id');
@@ -20,8 +20,6 @@ return new class() extends Migration {
             $table->unsignedInteger('xp');
             $table->unsignedInteger('soul_xp');
             $table->unsignedInteger('total_xp');
-            $table->timestamp('created_at');
-            $table->timestamp('updated_at');
 
             $table->unique(['world', 'player_id']);
         });
