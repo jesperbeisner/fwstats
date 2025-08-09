@@ -15,4 +15,20 @@ enum RaceEnum: string
     case Onlo = 'Onlo';
     case SerumGeist = 'Serum-Geist';
     case Taruner = 'Taruner';
+
+    public static function fromDump(string $race): ?RaceEnum
+    {
+        return match ($race) {
+            'dunkler Magier' => RaceEnum::DunklerMagier,
+            'Keuroner' => RaceEnum::Keuroner,
+            'Mensch / Arbeiter' => RaceEnum::MenschArbeiter,
+            'Mensch / Kämpfer' => RaceEnum::MenschKaempfer,
+            'Mensch / Zauberer' => RaceEnum::MenschZauberer,
+            'Natla - Händler' => RaceEnum::NatlaHaendler,
+            'Onlo' => RaceEnum::Onlo,
+            'Serum-Geist' => RaceEnum::SerumGeist,
+            'Taruner' => RaceEnum::Taruner,
+            default => null,
+        };
+    }
 }

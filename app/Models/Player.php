@@ -16,7 +16,7 @@ use Illuminate\Database\Eloquent\Model;
  * @property int $player_id
  * @property string $name
  * @property RaceEnum $race
- * @property int $clan_id
+ * @property ?int $clan_id
  * @property ?ProfessionEnum $profession
  * @property int $xp
  * @property int $soul_xp

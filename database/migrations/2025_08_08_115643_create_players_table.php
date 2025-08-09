@@ -15,7 +15,7 @@ return new class() extends Migration {
             $table->unsignedInteger('player_id');
             $table->string('name');
             $table->string('race');
-            $table->unsignedInteger('clan_id');
+            $table->unsignedInteger('clan_id')->nullable();
             $table->string('profession')->nullable();
             $table->unsignedInteger('xp');
             $table->unsignedInteger('soul_xp');
