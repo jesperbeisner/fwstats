@@ -71,66 +71,16 @@ final readonly class Player
             return 0;
         }
 
-        if ($soulXp < 150_000) {
-            return 1;
+        $level = 0;
+        $sum = 0;
+        $req = 50_000;
+
+        while ($soulXp >= $sum + $req) {
+            $sum += $req;
+            $level++;
+            $req = $level * 100_000;
         }
 
-        if ($soulXp < 350_000) {
-            return 2;
-        }
-
-        if ($soulXp < 650_000) {
-            return 3;
-        }
-
-        if ($soulXp < 1_050_000) {
-            return 4;
-        }
-
-        if ($soulXp < 1_550_000) {
-            return 5;
-        }
-
-        if ($soulXp < 2_150_000) {
-            return 6;
-        }
-
-        if ($soulXp < 2_850_000) {
-            return 7;
-        }
-
-        if ($soulXp < 3_650_000) {
-            return 8;
-        }
-
-        if ($soulXp < 4_550_000) {
-            return 9;
-        }
-
-        if ($soulXp < 5_550_000) {
-            return 10;
-        }
-
-        if ($soulXp < 6_650_000) {
-            return 11;
-        }
-
-        if ($soulXp < 7_850_000) {
-            return 12;
-        }
-
-        if ($soulXp < 9_150_000) {
-            return 13;
-        }
-
-        if ($soulXp < 10_550_000) {
-            return 14;
-        }
-
-        if ($soulXp < 12_050_000) {
-            return 15;
-        }
-
-        return 100;
+        return $level;
     }
 }
