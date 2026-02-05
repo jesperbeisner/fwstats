@@ -1,5 +1,7 @@
 FROM php:8.5-apache
 
+LABEL org.opencontainers.image.source=https://github.com/jesperbeisner/fwstats
+
 ARG USER="fwstats"
 ARG UID=1000
 
