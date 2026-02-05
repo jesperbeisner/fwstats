@@ -4,7 +4,7 @@ Statistics website for the worlds _ActionFreewar_ and _ChaosFreewar_ in the brow
 
 ## TechStack
 
-PHP 8.2, Bulma CSS, SQLite, Vanilla JS, Apache httpd with mod_php. All of this is shipped as a single docker image. 
+PHP 8.5, Bulma CSS, SQLite, Vanilla JS, Apache httpd with mod_php. All of this is shipped as a single docker image. 
 
 ## Quality assurance
 
@@ -59,22 +59,22 @@ Open your browser and visit http://localhost:8080. A test account with username 
 ### 1. Create a named volume
 
 ```bash
-docker volume create fwstats-prod
+docker volume create fwstats
 ```
 
 ### 2. Run the docker image
 ```bash
-docker run --detach --volume fwstats-prod:/var/www/html/data/database --publish 8888:80 --name fwstats-prod ghcr.io/jesperbeisner/fwstats:latest
+docker run -d -p 127.0.0.1:20060:80 -v fwstats:/var/www/html/data/database --restart unless-stopped --name fwstats --cpus=2 --memory=4G ghcr.io/jesperbeisner/fwstats:latest
 ```
 
 ### 3. Run the migrations
 ```bash
-docker exec fwstats-prod php bin/console.php app:database-migration
+docker exec fwstats php bin/console.php app:database-migration
 ```
 
 ### 4. Run one cronjob for everything every 5 minutes
 ```bash
-*/5 * * * * docker exec fwstats-prod php bin/console.php app:run > /dev/null 2>&1 
+*/5 * * * * docker exec fwstats php bin/console.php app:run > /dev/null 2>&1 
 ```
 
 ### 4 1/2. Use the `/cronjob` endpoint
@@ -92,7 +92,7 @@ Point your reverse proxy on your published port (In this example 8888) and visit
 ### 1. Remove your running container
 
 ```bash
-docker rm -f fwstats-prod
+docker rm -f fwstats
 ```
 
 ### 2. Remove the old image
@@ -104,13 +104,13 @@ docker rmi -f ghcr.io/jesperbeisner/fwstats:latest
 ### 3. Start a new container with the new image
 
 ```bash
-docker run --detach --volume fwstats-prod:/var/www/html/data/database --publish 8888:80 --name fwstats-prod ghcr.io/jesperbeisner/fwstats:latest
+docker run -d -p 127.0.0.1:20060:80 -v fwstats:/var/www/html/data/database --restart unless-stopped --name fwstats --cpus=2 --memory=4G ghcr.io/jesperbeisner/fwstats:latest
 ```
 
 ### 4. Run the migrations
 
 ```bash
-docker exec fwstats-prod php bin/console.php app:database-migration
+docker exec fwstats php bin/console.php app:database-migration
 ```
 
 ### 5. Finished
