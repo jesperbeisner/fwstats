@@ -19,8 +19,11 @@ phpstan-baseline: ## Generate PHPStan Baseline
 phpunit: ## Run PHPUnit
 	docker compose exec php php -d xdebug.mode=off -d memory_limit=-1 vendor/bin/phpunit
 
-app-run:
+app-run: ## Run App Import Command
 	docker compose exec php php -d xdebug.mode=off -d memory_limit=-1 bin/console.php app:run
 
-fixtures:
+fixtures: ## Load database fixtures
 	docker compose exec php php -d xdebug.mode=off -d memory_limit=-1 bin/console.php app:database-fixtures
+
+bash: ## Open bash in container
+	docker compose exec php bash

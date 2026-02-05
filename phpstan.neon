@@ -2,13 +2,14 @@ parameters:
     level: max
 
     paths:
+        - .phpstan/src
         - public
         - src
         - tests
 
     strictRules:
         allRules: true
-        strictCalls: false
+        dynamicCallOnStaticMethod: false
 
     type_coverage:
         return_type: 100

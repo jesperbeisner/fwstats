@@ -16,12 +16,13 @@ final readonly class PlaytimeService
     }
 
     /**
-     * @return array<Playtime|null>
+     * @return array<int, Playtime|null>
      */
     public function getPlaytimesForPlayer(Player $player, int $days): array
     {
-        $result = [];
         $playtimes = $this->playerActiveSecondRepository->getPlaytimesForPlayer($player, $days);
+
+        $result = [];
 
         for ($i = 1; $i < $days + 1; $i++) {
             if ($playtimes['day_' . $i] !== null && $playtimes['day_' . ($i + 1)] !== null) {

@@ -35,6 +35,9 @@ final class DatabaseDummy implements DatabaseInterface
     {
     }
 
+    /**
+     * @phpstan-pure
+     */
     public function select(string $sql, array $params = []): array
     {
         return $this->selectReturn;

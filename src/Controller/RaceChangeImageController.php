@@ -22,7 +22,7 @@ final readonly class RaceChangeImageController implements ControllerInterface
     public function execute(Request $request): Response
     {
         return Response::html('image/race-changes.phtml', [
-            'domainName' => $this->configRepository->findByKey('domain-name')?->value ?? 'https://fwstats.de',
+            'domainName' => $this->configRepository->findByKey('domain-name')->value ?? 'https://fwstats.de',
         ]);
     }
 }

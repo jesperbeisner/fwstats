@@ -22,7 +22,7 @@ final readonly class RankingImageController implements ControllerInterface
     public function execute(Request $request): Response
     {
         return Response::html('image/ranking.phtml', [
-            'domainName' => $this->configRepository->findByKey('domain-name')?->value ?? 'https://fwstats.de',
+            'domainName' => $this->configRepository->findByKey('domain-name')->value ?? 'https://fwstats.de',
         ]);
     }
 }

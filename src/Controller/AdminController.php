@@ -33,7 +33,7 @@ final readonly class AdminController implements ControllerInterface
 
         return Response::html('admin/admin.phtml', [
             'bearerToken' => $bearerToken,
-            'domainName' => $this->configRepository->findByKey('domain-name')?->value ?? 'https://fwstats.de',
+            'domainName' => $this->configRepository->findByKey('domain-name')->value ?? 'https://fwstats.de',
             'phpVersion' => phpversion(),
             'databaseSize' => $this->getDatabaseSize(),
         ]);
@@ -61,7 +61,7 @@ final readonly class AdminController implements ControllerInterface
             return $databaseSize . ' bytes';
         }
 
-        if ($databaseSize == 1) {
+        if ($databaseSize === 1) {
             return $databaseSize . ' byte';
         }
 

@@ -22,7 +22,7 @@ final readonly class ProfessionChangeImageController implements ControllerInterf
     public function execute(Request $request): Response
     {
         return Response::html('image/profession-changes.phtml', [
-            'domainName' => $this->configRepository->findByKey('domain-name')?->value ?? 'https://fwstats.de',
+            'domainName' => $this->configRepository->findByKey('domain-name')->value ?? 'https://fwstats.de',
         ]);
     }
 }

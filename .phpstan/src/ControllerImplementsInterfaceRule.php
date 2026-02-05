@@ -9,6 +9,7 @@ use PhpParser\Node;
 use PHPStan\Analyser\Scope;
 use PHPStan\Node\InClassNode;
 use PHPStan\Rules\Rule;
+use PHPStan\Rules\RuleErrorBuilder;
 
 /**
  * @implements Rule<InClassNode>
@@ -39,7 +40,11 @@ final class ControllerImplementsInterfaceRule implements Rule
         }
 
         if (!$classReflection->isSubclassOf(ControllerInterface::class)) {
-            return [sprintf('Controllers need to implement "%s".', ControllerInterface::class)];
+            return [
+                RuleErrorBuilder::message(sprintf('Controllers need to implement "%s".', ControllerInterface::class))
+                    ->identifier('fwstats')
+                    ->build(),
+            ];
         }
 
         return [];

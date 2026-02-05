@@ -118,7 +118,7 @@ final class RankingImage extends AbstractImage
         $this->write('Clan', 240, 65, 12);
 
         foreach ($players as $id => $player) {
-            $clan = $clans[$player->clanId] ?? null;
+            $clan = $player->clanId === null ? null : ($clans[$player->clanId] ?? null);
             $this->write($clan === null ? '-' : $clan->shortcut, 240, 19 * ($id + 1) + 70, 10);
         }
     }

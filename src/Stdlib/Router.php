@@ -7,6 +7,7 @@ namespace Jesperbeisner\Fwstats\Stdlib;
 use FastRoute\Dispatcher as DispatcherInterface;
 use Jesperbeisner\Fwstats\Controller\MethodNotAllowedController;
 use Jesperbeisner\Fwstats\Controller\NotFoundController;
+use Jesperbeisner\Fwstats\Interface\ControllerInterface;
 use Jesperbeisner\Fwstats\Interface\RouterInterface;
 
 final readonly class Router implements RouterInterface
@@ -18,6 +19,7 @@ final readonly class Router implements RouterInterface
 
     public function route(Request $request): void
     {
+        /** @var array{int, class-string<ControllerInterface>, array<string, string>} $routeInfo */
         $routeInfo = $this->dispatcher->dispatch($request->getHttpMethod(), $request->getUri());
 
         if ($routeInfo[0] === DispatcherInterface::NOT_FOUND) {

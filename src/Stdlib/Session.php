@@ -9,6 +9,7 @@ use Jesperbeisner\Fwstats\Exception\SessionException;
 use Jesperbeisner\Fwstats\Interface\SessionInterface;
 use Jesperbeisner\Fwstats\Model\User;
 use Jesperbeisner\Fwstats\Repository\UserRepository;
+use Webmozart\Assert\Assert;
 
 final class Session implements SessionInterface
 {
@@ -39,7 +40,7 @@ final class Session implements SessionInterface
             $this->start();
         }
 
-        return $_SESSION[$key] ?? null;
+        return Assert::nullOrScalar($_SESSION[$key] ?? null);
     }
 
     public function set(string $key, string|int|float|bool $value): void

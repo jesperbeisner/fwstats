@@ -8,6 +8,7 @@ use PhpParser\Node;
 use PhpParser\Node\Stmt\Class_;
 use PHPStan\Analyser\Scope;
 use PHPStan\Rules\Rule;
+use PHPStan\Rules\RuleErrorBuilder;
 
 /**
  * @implements Rule<Class_>
@@ -28,15 +29,27 @@ final class ControllerKeywordsRule implements Rule
         }
 
         if ($node->isAbstract()) {
-            return ['Abstract controllers are not allowed.'];
+            return [
+                RuleErrorBuilder::message('Abstract controllers are not allowed.')
+                    ->identifier('fwstats')
+                    ->build(),
+            ];
         }
 
         if (!$node->isFinal()) {
-            return ['Controller classes need to be final.'];
+            return [
+                RuleErrorBuilder::message('Controller classes need to be final.')
+                    ->identifier('fwstats')
+                    ->build(),
+            ];
         }
 
         if (!$node->isReadonly()) {
-            return ['Controller classes need to be readonly.'];
+            return [
+                RuleErrorBuilder::message('Controller classes need to be readonly.')
+                    ->identifier('fwstats')
+                    ->build(),
+            ];
         }
 
         return [];

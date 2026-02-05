@@ -1,4 +1,4 @@
-FROM php:8.3-apache
+FROM php:8.5-apache
 
 ARG USER="fwstats"
 ARG UID=1000
@@ -31,4 +31,5 @@ RUN chown -R 1000:1000 "/var/www/html"
 USER $USER
 
 RUN composer install --optimize-autoloader --no-dev
+
 RUN mv .env.local.php.dist .env.local.php

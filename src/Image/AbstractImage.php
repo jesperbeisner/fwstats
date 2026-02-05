@@ -8,6 +8,7 @@ use GdImage;
 use Jesperbeisner\Fwstats\Exception\ImageException;
 use Jesperbeisner\Fwstats\Interface\ImageInterface;
 use Jesperbeisner\Fwstats\Stdlib\Config;
+use Webmozart\Assert\Assert;
 
 abstract class AbstractImage implements ImageInterface
 {
@@ -24,6 +25,9 @@ abstract class AbstractImage implements ImageInterface
 
     protected function createImage(int $width, int $height): void
     {
+        Assert::positiveInteger($width);
+        Assert::positiveInteger($height);
+
         if (false === $image = imagecreate($width, $height)) {
             throw new ImageException('Could not create an image.');
         }
@@ -37,12 +41,10 @@ abstract class AbstractImage implements ImageInterface
             throw new ImageException("Did you forget to run 'imageCreate'?");
         }
 
-        if (false === imagefill($this->image, 0, 0, $color)) {
-            throw new ImageException('Could not set background color.');
-        }
+        imagefill($this->image, 0, 0, $color);
     }
 
-    protected function write(string $text, int $x, int $y, int $size = null, int $color = null, int $angle = 0): void
+    protected function write(string $text, int $x, int $y, ?int $size = null, ?int $color = null, int $angle = 0): void
     {
         if ($this->image === null) {
             throw new ImageException("Did you forget to run 'imageCreate'?");

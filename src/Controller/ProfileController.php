@@ -75,7 +75,7 @@ final readonly class ProfileController implements ControllerInterface
     }
 
     /**
-     * @param array<string, Playtime|null> $playtimes
+     * @param array<int, Playtime|null> $playtimes
      * @return array{Playtime, Playtime}
      */
     private function getTotalAndAveragePlaytime(Player $player, array $playtimes): array

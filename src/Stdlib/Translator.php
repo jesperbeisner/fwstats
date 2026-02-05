@@ -36,6 +36,7 @@ final class Translator implements TranslatorInterface
                 throw new RuntimeException(sprintf('Translation file "%s" did not return an array.', $translationsFileName));
             }
 
+            /** @var array<string, string> $translations */
             $this->translations = $translations;
         }
 
