@@ -22,7 +22,7 @@ jobs:
                     fail-fast: true
 
             -   name: "Checkout Project"
-                uses: actions/checkout@v3
+                uses: actions/checkout@v7
 
             -   name: "Install Dependencies"
                 run: composer install
